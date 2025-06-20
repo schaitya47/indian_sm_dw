@@ -1,0 +1,6 @@
+mageenv/
+__pycache__/
+.env
+*.db
+data/
+logs/
