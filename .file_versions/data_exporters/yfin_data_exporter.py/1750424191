@@ -1,0 +1,30 @@
+import os
+from dotenv import load_dotenv  # Add this to load .env variables
+from mage_ai.settings.repo import get_repo_path
+from mage_ai.io.config import ConfigFileLoader
+from mage_ai.io.postgres import Postgres
+from pandas import DataFrame
+from os import path
+
+from mage_ai.data_preparation.decorators import data_exporter  # Import unconditionally
+
+
+@data_exporter
+def export_data_to_postgres(df: DataFrame, **kwargs) -> None:
+    # Ensure POSTGRES_PORT is set correctly
+    postgres_port = os.getenv("POSTGRES_PORT", "5432")  # Default to 5432 if not set
+    print("POSTGRES_PORT =", postgres_port)
+
+    schema_name = os.getenv("POSTGRES_SCHEMA", "public")  # Load schema from .env
+    table_name = 'yfin_daily_ohlcv'  # Specify the name of the table to export data to
+    config_path = path.join(get_repo_path(), 'io_config.yaml')
+    config_profile = 'default'
+
+    with Postgres.with_config(ConfigFileLoader(config_path, config_profile)) as loader:
+        loader.export(
+            df,
+            schema_name,
+            table_name,
+            index=False,  # Specifies whether to include index in exported table
+            if_exists='replace',  # Specify resolution policy if table name already exists
+        )
