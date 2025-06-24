@@ -1,21 +1,4 @@
-blocks:
-- all_upstream_blocks_executed: true
-  color: null
-  configuration:
-    file_source:
-      path: scratchpads/yfin_test.py
-  downstream_blocks: []
-  executor_config: null
-  executor_type: local_python
-  has_callback: false
-  language: python
-  name: yfin_test
-  retry_config: null
-  status: not_executed
-  timeout: null
-  type: scratchpad
-  upstream_blocks: []
-  uuid: yfin_test
+blocks: []
 cache_block_output_in_memory: false
 callbacks: []
 concurrency_config: {}

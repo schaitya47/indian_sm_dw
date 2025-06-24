@@ -1,0 +1,2 @@
+# Result of TCS.NS_funds_data
+<yfinance.scrapers.funds.FundsData object at 0x799c35dd4100>

@@ -14,7 +14,7 @@ def load_data(*args, **kwargs):
     Returns:
         Anything (e.g. data frame, dictionary, array, int, str, etc.)
     """
-    sname = "BSE.NS"
+    sname = "TCS.NS"
 
     #create a Ticker object for the specified stock name
     tick = yf.Ticker(sname)
