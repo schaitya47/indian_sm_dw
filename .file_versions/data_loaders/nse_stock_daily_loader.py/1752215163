@@ -1,4 +1,4 @@
-from utils.nse.nse_data_extractor import NSEMasterData
+from nse_api import NSEMasterData
 from datetime import datetime, timedelta
 
 if 'data_loader' not in globals():
@@ -15,17 +15,19 @@ def load_data(*args, **kwargs):
 
     nse = NSEMasterData()
 
-    # print("\n--- Running download_symbol_master() ---")
-    # nse.download_symbol_master()
-    # # print("NSE Master Sample:\n", nse.nse_data.head(2))
-    # # print("NFO Master Sample:\n", nse.nfo_data.head(2))
+    print("\n--- Running download_symbol_master() ---")
+    nse.download_symbol_master()
+    # print("NSE Master Sample:\n", nse.nse_data.head(2))
+    # print("NFO Master Sample:\n", nse.nfo_data.head(2))
 
-    # # Test: get_nse_symbol_master() with both URLs
-    # print("\n--- Running get_nse_symbol_master() for NSE ---")
-    # nse_df = nse.get_nse_symbol_master(nse.nse_url)
-    # print(nse_df.head(2))
+    # Test: get_nse_symbol_master() with both URLs
+    print("\n--- Running get_nse_symbol_master() for NSE ---")
+    nse_df = nse.get_nse_symbol_master(nse.nse_url)
+    print(nse_df.head(2))
 
-    return {}
+    return nse
+
+
 @test
 def test_output(output, *args) -> None:
     """

@@ -14,6 +14,7 @@ output_file = "nse_function_outputs.txt"
 end_date = datetime.now()
 start_date = end_date - timedelta(days=7)
 
+print("\n======= NSE FUNCTION OUTPUTS LOG ======= before running functions =======")
 # Start capturing function outputs
 with open(output_file, "w") as f, redirect_stdout(f):
     print("======= NSE FUNCTION OUTPUTS LOG =======")
@@ -27,8 +28,8 @@ with open(output_file, "w") as f, redirect_stdout(f):
     # Test: download_symbol_master()
     print("\n--- Running download_symbol_master() ---")
     nse.download_symbol_master()
-    print("NSE Master Sample:\n", nse.nse_data.head(2))
-    print("NFO Master Sample:\n", nse.nfo_data.head(2))
+    # print("NSE Master Sample:\n", nse.nse_data.head(2))
+    # print("NFO Master Sample:\n", nse.nfo_data.head(2))
 
     # Test: get_nse_symbol_master() with both URLs
     print("\n--- Running get_nse_symbol_master() for NSE ---")

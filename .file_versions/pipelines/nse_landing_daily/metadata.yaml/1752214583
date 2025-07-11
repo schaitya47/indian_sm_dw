@@ -1,21 +1,19 @@
 blocks:
 - all_upstream_blocks_executed: true
   color: null
-  configuration:
-    file_source:
-      path: data_loaders/nse_stock_daily_loader.py
+  configuration: {}
   downstream_blocks: []
   executor_config: null
   executor_type: local_python
   has_callback: false
   language: python
-  name: nse_stock_daily_loader
+  name: nse_ladning_daily_loader
   retry_config: null
-  status: executed
+  status: updated
   timeout: null
   type: data_loader
   upstream_blocks: []
-  uuid: nse_stock_daily_loader
+  uuid: nse_ladning_daily_loader
 cache_block_output_in_memory: false
 callbacks: []
 concurrency_config: {}
@@ -40,9 +38,5 @@ tags:
 - nse_landing
 type: python
 uuid: nse_landing_daily
-<<<<<<< HEAD
-variables_dir: /home/chaitya/.mage_data/indian_sm_dw
-=======
 variables_dir: C:\Users\61073035/.mage_data\indian_sm_dw
->>>>>>> b924957 (nse_pipeline_dev_started)
 widgets: []

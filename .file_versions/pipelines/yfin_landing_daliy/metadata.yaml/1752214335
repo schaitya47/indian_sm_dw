@@ -4,7 +4,7 @@ blocks:
   configuration:
     file_path: data_loaders\yfin_stock_daily_loader.py
     file_source:
-      path: null
+      path: data_loaders\yfin_stock_daily_loader.py
   downstream_blocks:
   - yfin_stock_daily_transformer
   executor_config: null
@@ -13,7 +13,7 @@ blocks:
   language: python
   name: yfin_stock_daily_loader
   retry_config: null
-  status: failed
+  status: executed
   timeout: null
   type: data_loader
   upstream_blocks: []
@@ -23,7 +23,7 @@ blocks:
   configuration:
     file_path: data_exporters\yfin_stock_daily_exporter.py
     file_source:
-      path: null
+      path: data_exporters\yfin_stock_daily_exporter.py
   downstream_blocks: []
   executor_config: null
   executor_type: local_python
@@ -42,7 +42,7 @@ blocks:
   configuration:
     file_path: transformers\yfin_stock_daily_transformer.py
     file_source:
-      path: null
+      path: transformers\yfin_stock_daily_transformer.py
   downstream_blocks:
   - yfin_stock_daily_exporter
   executor_config: null
@@ -82,5 +82,5 @@ tags:
 - daliy
 type: python
 uuid: yfin_landing_daliy
-variables_dir: /home/chaitya/.mage_data/indian_sm_dw
+variables_dir: C:\Users\61073035/.mage_data\indian_sm_dw
 widgets: []
