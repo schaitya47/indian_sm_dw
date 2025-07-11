@@ -1,0 +1,71 @@
+# import yfinance as yf
+# import pandas as pd
+# import json
+# # symbol = ["TCS.NS","BSE.NS","ITC.NS"]
+
+# # t = yf.Tickers(symbol)
+
+# # for sym in t.tickers:
+# #     ticker = yf.Ticker(sym)
+# #     print(f"Ticker: {sym}")
+# #     # print("Info:", ticker.info)
+# #     # print("Sustainability:", ticker.sustainability)
+# #     # print("Major Holders:", ticker.get_major_holders())
+# #     # print("Earnings Dates:", ticker.earnings_dates)
+# #     # print("Earnings Forecast:", ticker.get_earnings_estimate())
+# #     # print("Growth Estimates:", ticker.get_growth_estimates())
+# #     # history = ticker.history(start="2024-01-01", end="2025-01-01", interval="1d")
+# #     # print("History with Interval:\n", history.head())
+# #     # print("Recommendations:\n", ticker.recommendations)
+# #     # print("\n")  # Newline for better readability
+
+# # # ticker = yf.Ticker("TCS.NS")
+# # x = ticker.info
+
+# # y = pd.DataFrame.from_dict(x, orient='index')
+# # print(y.head())
+
+# # symbol = ["TCS.NS","INFY.NS", "HDFCBANK.NS", "RELIANCE.NS", "HINDUNILVR.NS", "ICICIBANK.NS", "HDFC.NS", "KOTAKBANK.NS", "LT.NS", "SBIN.NS"]
+# # c_data = pd.DataFrame()
+# # # Need to devlop further to handle incremental data loading
+# # # For now, we will fetch daily data from 2024-01-01 to today
+# # # and overwrite the existing data
+# # def serialize(data):
+# #     if isinstance(data, (dict, list)):
+# #         return json.dumps(data)
+# #     return data
+
+# # def merge_dataframes(current, master):
+# #     return pd.concat([current, master], ignore_index=True,sort=False) if current is not None else master
+# # t = yf.Tickers(symbol)
+# # print("before")
+# # for sym in t.tickers:
+# #     print("After")
+# #     data = t.tickers[sym].info
+# #     data = {k: serialize(v) for k, v in data.items() if v is not None}
+# #     data = pd.DataFrame([data])
+# #     c_data = merge_dataframes(data, c_data)
+# # print(c_data.head())
+# print("Hello")
+
+# Windows event loop fix for Mage AI
+import asyncio
+import sys
+
+if sys.platform == "win32":
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+
+print("Hello World - Windows fix applied")
+print("Python is working correctly")
+
+# Test basic operations
+import pandas as pd
+import datetime
+
+df = pd.DataFrame({
+    'test': [1, 2, 3],
+    'date': pd.date_range('2024-01-01', periods=3)
+})
+
+print("DataFrame created successfully:")
+print(df)

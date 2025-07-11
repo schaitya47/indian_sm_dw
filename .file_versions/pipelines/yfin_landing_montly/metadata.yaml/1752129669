@@ -1,0 +1,42 @@
+blocks:
+- all_upstream_blocks_executed: true
+  color: null
+  configuration:
+    file_source:
+      path: data_exporters\yfin_stock_weekly_exporter.py
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: yfin_stock_weekly_exporter
+  retry_config: null
+  status: not_executed
+  timeout: null
+  type: data_exporter
+  upstream_blocks: []
+  uuid: yfin_stock_weekly_exporter
+cache_block_output_in_memory: false
+callbacks: []
+concurrency_config: {}
+conditionals: []
+created_at: '2025-07-10 12:10:48.999886+00:00'
+data_integration: null
+description: This is to load stock company info on the monthly basis
+executor_config: {}
+executor_count: 1
+executor_type: null
+extensions: {}
+name: yfin_landing_montly
+notification_config: {}
+remote_variables_dir: null
+retry_config: {}
+run_pipeline_in_one_process: false
+settings:
+  triggers: null
+spark_config: {}
+tags: []
+type: python
+uuid: yfin_landing_montly
+variables_dir: C:\Users\61073035/.mage_data\indian_sm_dw
+widgets: []

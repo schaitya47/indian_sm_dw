@@ -1,0 +1,43 @@
+import pandas as pd
+import yfinance as yf
+import json
+if 'data_loader' not in globals():
+    from mage_ai.data_preparation.decorators import data_loader
+if 'test' not in globals():
+    from mage_ai.data_preparation.decorators import test
+
+
+@data_loader
+def load_data(*args, **kwargs):
+    print("very before")
+    symbol = ["TCS.NS","INFY.NS", "HDFCBANK.NS", "RELIANCE.NS", "HINDUNILVR.NS", "ICICIBANK.NS", "HDFC.NS", "KOTAKBANK.NS", "LT.NS", "SBIN.NS"]
+    c_data = pd.DataFrame()
+
+
+    # Need to devlop further to handle incremental data loading
+    # For now, we will fetch daily data from 2024-01-01 to today
+    # and overwrite the existing data
+    def serialize(data):
+        if isinstance(data, (dict, list)):
+            return json.dumps(data)
+        return data
+    
+    def merge_dataframes(current, master):
+        return pd.concat([current, master], ignore_index=True,sort=False) if current is not None else master
+
+    t = yf.Tickers(symbol)
+    for sym in t.tickers:
+        data = t.tickers[sym].info
+        data = {k: serialize(v) for k, v in data.items() if v is not None}
+        data = pd.DataFrame([data])
+        c_data = merge_dataframes(data, c_data)
+
+    return c_data
+
+
+@test
+def test_output(output, *args) -> None:
+    """
+    Template code for testing the output of the block.
+    """
+    assert output is not None, 'The output is undefined'
