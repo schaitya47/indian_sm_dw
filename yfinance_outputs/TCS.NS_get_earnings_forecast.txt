@@ -1,8 +1,0 @@
-# Result of TCS.NS_get_earnings_forecast
-        stockTrend  indexTrend
-period                        
-0q          0.0243      0.1313
-+1q         0.0475      0.0231
-0y          0.0668      0.0755
-+1y         0.0986      0.1410
-LTG            NaN      0.1220

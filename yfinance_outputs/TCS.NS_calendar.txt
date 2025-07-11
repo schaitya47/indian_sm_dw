@@ -1,2 +1,0 @@
-# Result of TCS.NS_calendar
-{'Ex-Dividend Date': datetime.date(2025, 6, 4), 'Earnings Date': [datetime.date(2025, 7, 9), datetime.date(2025, 7, 14)], 'Earnings High': 34.96, 'Earnings Low': 33.5, 'Earnings Average': 34.08733, 'Revenue High': 657437000000, 'Revenue Low': 632297000000, 'Revenue Average': 647105290850}

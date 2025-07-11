@@ -1,6 +1,0 @@
-# Result of TCS.NS_get_major_holders
-Breakdown                         Value
-insidersPercentHeld             0.71785
-institutionsPercentHeld         0.16657
-institutionsFloatPercentHeld    0.59035
-institutionsCount             368.00000

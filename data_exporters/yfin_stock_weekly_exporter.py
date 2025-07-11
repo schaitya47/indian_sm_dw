@@ -19,7 +19,7 @@ def export_data_to_postgres(df: dict, **kwargs) -> None:
     """
 
     for key in df:
-        schema_name = 'yfin_landing'  # Specify the name of the schema to export data to
+        schema_name = 'stock_landing'  # Specify the name of the schema to export data to
         
         if key == "info":
             table_name = 'yfin_stock_info_tbls'  # Specify the name of the table to export data to

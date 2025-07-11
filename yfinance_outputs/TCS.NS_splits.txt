@@ -1,6 +1,0 @@
-# Result of TCS.NS_splits
-Date
-2006-07-28 00:00:00+05:30    2.0
-2009-06-16 00:00:00+05:30    2.0
-2018-05-31 00:00:00+05:30    2.0
-Name: Stock Splits, dtype: float64
