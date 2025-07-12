@@ -84,7 +84,7 @@ default:
   # PostgresSQL
   POSTGRES_CONNECT_TIMEOUT: 10
   POSTGRES_DBNAME: indian_sm_dw
-  POSTGRES_SCHEMA: stock_landing
+  POSTGRES_SCHEMA: stock_tbls
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: postgres
   POSTGRES_HOST: localhost

@@ -1,0 +1,306 @@
+from Fundamentals import Tickertape
+import pandas as pd
+import sys
+# ttp = Tickertape()
+
+# # Searching in tickertape this is good for comapny info / Allowed search_places = ['stock', 'index', 'etf', 'mutualfund', 'space', 'profile', 'smallcase', 'all']
+# res, raw_data = ttp.get_ticker('Adani wilmar')
+# print(res)
+# raw_data[0]
+
+# # Get all tickers (sid in Tickertape) of NIFTY 50
+# ttp.get_all_nifty_50_ticker()
+
+# # time_horizon = interim (quarterly), time_periods = 10 (10 qtrs), view = Normal
+# ttp.get_income_data('ADAI')
+
+
+# # to get the blance sheet data of a company 
+# ttp.get_balance_sheet_data('ALKY', num_time_periods=10) # View_type = Normal
+
+
+
+# # these 2 are default values ideally no need to pass {num_time_periods=10, growth=False}
+# ttp.get_cash_flow_data('TCS', num_time_periods=10, growth=False) 
+
+# #TickerTape SCORE CARD
+# ttp.get_score_card('INFY')
+
+
+
+# # Share Holding Pattern Q-O-Q
+# _, raw_data = ttp.get_ticker('Tata consult') # TCS
+# slug_url = raw_data[0].get('slug')
+# print(slug_url)
+# ttp.get_share_holding_pattern(slug_url)
+
+
+# #Dividends History of an Equity this will provide history as well as confirmed upcoming
+# _, raw_data = ttp.get_ticker('ITC ltd')
+# slug_url = raw_data[0].get('slug')
+# print(slug_url)
+# ttp.get_dividends_history(slug_url)
+
+
+# # Key Ratios of a stock or Index
+# _, raw_data = ttp.get_ticker('Adani Ports')
+# slug_url = raw_data[0].get('slug')
+# print(slug_url)
+# ttp.get_key_ratios(slug_url)
+
+
+# # Tickertape Filters or Screeners
+# # You can pass any number of filters listed below, you can also pass entire filters list.
+# # Sortby pass the filter name by default it considers the first entry in the filters list
+# # In the number of records pass n records else it will give entire stocks list available in exchange (~4k stocks)
+# filtered_list_df = ttp.get_equity_screener_data(filters=["mrktCapf", "lastPrice", "beta"], sortby='mrktCapf', number_of_records=60)
+# print(filtered_list_df)
+
+output_file = "tickertape_outputs.txt"
+sys.stdout = open(output_file, "w", encoding="utf-8")
+
+ttp = Tickertape()
+
+print("\n===== get_ticker('Adani wilmar') =====")
+res, raw_data = ttp.get_ticker('Adani wilmar')
+print("Result:", res)
+print("Raw Data:", raw_data[0] if raw_data else "No data")
+
+print("\n===== get_all_nifty_50_ticker() =====")
+print(ttp.get_all_nifty_50_ticker())
+
+print("\n===== get_income_data('ADAI') =====")
+print(ttp.get_income_data('ADAI'))
+
+print("\n===== get_balance_sheet_data('ALKY') =====")
+print(ttp.get_balance_sheet_data('ALKY', num_time_periods=10))
+
+print("\n===== get_cash_flow_data('TCS') =====")
+print(ttp.get_cash_flow_data('TCS', num_time_periods=10, growth=False))
+
+print("\n===== get_score_card('INFY') =====")
+print(ttp.get_score_card('INFY'))
+
+print("\n===== get_share_holding_pattern('Tata consult') =====")
+_, raw_data = ttp.get_ticker('Tata consult')
+slug_url = raw_data[0].get('slug') if raw_data else None
+print("Slug URL:", slug_url)
+if slug_url:
+    print(ttp.get_share_holding_pattern(slug_url))
+
+print("\n===== get_dividends_history('ITC ltd') =====")
+_, raw_data = ttp.get_ticker('ITC ltd')
+slug_url = raw_data[0].get('slug') if raw_data else None
+print("Slug URL:", slug_url)
+if slug_url:
+    print(ttp.get_dividends_history(slug_url))
+
+print("\n===== get_key_ratios('Adani Ports') =====")
+_, raw_data = ttp.get_ticker('Adani Ports')
+slug_url = raw_data[0].get('slug') if raw_data else None
+print("Slug URL:", slug_url)
+if slug_url:
+    print(ttp.get_key_ratios(slug_url))
+
+print("\n===== get_equity_screener_data(filters=...) =====")
+filtered_list_df = ttp.get_equity_screener_data(
+    filters=["mrktCapf", "lastPrice", "beta"],
+    sortby='mrktCapf',
+    number_of_records=60
+)
+print(filtered_list_df)
+
+# Restore stdout
+sys.stdout.close()
+
+
+# ===== get_ticker('Adani wilmar') =====
+# Result: AWL
+# Raw Data: {'marketCap': 33612.59372025, 'ticker': 'AWL', 'brands': [], 'searchTags_keyword': ['awl agri business ltd', 'awl', 'adani wilmar ltd'], 'marketCapRank': 247, 'searchTags': ['awl agri business ltd', 'awl', 'adani wilmar ltd'], 'exchanges': 'NSE', 'weight': 1, 'ticker_keyword': 'AWL', 'suspended': False, 'sid': 'AWL', 'name_suggest': 'AWL Agri Business Ltd', 'brands_keyword': [], 'name_keyword': 'AWL Agri Business Ltd', 'ticker_suggest': 'AWL', 'name': 'AWL Agri Business Ltd', 'id': 'AWL', 'sector': 'Consumer Staples', 'ticker_key': 'AWL', 'slug': '/stocks/adani-wilmar-AWL', 'quote': {'sid': 'AWL', 'price': 257.6, 'close': 259.5, 'change': -1.9, 'high': 261.2, 'low': 256.4, 'volume': 1439479, 'date': '2025-06-26T10:27:14.000Z'}, 'score': 518.0264, 'index': 'stock', 'type': 'stock', 'match': 'EXACT'}
+
+# ===== get_all_nifty_50_ticker() =====
+# ['ADEL', 'APSE', 'APLH', 'ASPN', 'AXBK', 'BAJA', 'BJFS', 'BJFN', 'BAJE', 'BRTI', 'CIPL', 'COAL', 'REDY', 'EICH', 'GRAS', 'HCLT', 'HDBK', 'HDFL', 'HROM', 'HALC', 'HLL', 'ICBK', 'INBK', 'INFY', 'ITC', 'JSTL', 'KTKM', 'LART', 'MAHM', 'MRTI', 'NEST', 'NTPC', 'ONGC', 'PGRD', 'RELI', 'SBIL', 'SBI', 'SRTR', 'SUN', 'TACN', 'TAMO', 'TISC', 'TCS', 'TEML', 'TITN', 'TREN', 'ULTC', 'WIPR', 'ZOM', 'JIO']
+
+# ===== get_income_data('ADAI') =====
+#   displayPeriod                   endDate     reporting  ...  qIncEps qIncDps qIncPyr
+# 0      DEC 2022  2022-12-31T00:00:00.000Z  consolidated  ...     4.26    None    None
+# 1      MAR 2023  2023-03-31T00:00:00.000Z  consolidated  ...     3.49    None    None
+# 2      JUN 2023  2023-06-30T00:00:00.000Z  consolidated  ...     1.57    None    None
+# 3      SEP 2023  2023-09-30T00:00:00.000Z  consolidated  ...     2.47    None    None
+# 4      DEC 2023  2023-12-31T00:00:00.000Z  consolidated  ...     2.92    None    None
+# 5      MAR 2024  2024-03-31T00:00:00.000Z  consolidated  ...     3.24    None    None
+# 6      JUN 2024  2024-06-30T00:00:00.000Z  consolidated  ...    -7.39    None    None
+# 7      SEP 2024  2024-09-30T00:00:00.000Z  consolidated  ...     6.09    None    None
+# 8      DEC 2024  2024-12-31T00:00:00.000Z  consolidated  ...     4.85    None    None
+# 9      MAR 2025  2025-03-31T00:00:00.000Z  consolidated  ...     5.50    None    None
+
+# [10 rows x 19 columns]
+
+# ===== get_balance_sheet_data('ALKY') =====
+#   displayPeriod                   endDate   reporting  ...   balCa  balNcl  balDta
+# 0       FY 2016  2016-03-31T00:00:00.000Z  standalone  ...  183.81   75.97    None
+# 1       FY 2017  2017-03-31T00:00:00.000Z  standalone  ...  225.02  106.07    None
+# 2       FY 2018  2018-03-31T00:00:00.000Z  standalone  ...  238.38  160.35    None
+# 3       FY 2019  2019-03-31T00:00:00.000Z  standalone  ...  312.02  135.75    None
+# 4       FY 2020  2020-03-31T00:00:00.000Z  standalone  ...  294.15   92.98    None
+# 5       FY 2021  2021-03-31T00:00:00.000Z  standalone  ...  528.07   71.10    None
+# 6       FY 2022  2022-03-31T00:00:00.000Z  standalone  ...  537.65   53.60    None
+# 7       FY 2023  2023-03-31T00:00:00.000Z  standalone  ...  500.82   68.80    None
+# 8       FY 2024  2024-03-31T00:00:00.000Z  standalone  ...  443.77   89.05    None
+# 9       FY 2025  2025-03-31T00:00:00.000Z  standalone  ...  630.70  141.23    None
+
+# [10 rows x 36 columns]
+
+# ===== get_cash_flow_data('TCS') =====
+#   displayPeriod                   endDate     reporting  ...  cafFee  cafNcic  cafFcf
+# 0       FY 2016  2016-03-31T00:00:00.000Z  consolidated  ...    None     4433   17122
+# 1       FY 2017  2017-03-31T00:00:00.000Z  consolidated  ...    None    -2698   23234
+# 2       FY 2018  2018-03-31T00:00:00.000Z  consolidated  ...    None     1286   23205
+# 3       FY 2019  2019-03-31T00:00:00.000Z  consolidated  ...    None     2341   26362
+# 4       FY 2020  2020-03-31T00:00:00.000Z  consolidated  ...    None     1422   29120
+# 5       FY 2021  2021-03-31T00:00:00.000Z  consolidated  ...    None    -1788   35626
+# 6       FY 2022  2022-03-31T00:00:00.000Z  consolidated  ...    None     5630   36954
+# 7       FY 2023  2023-03-31T00:00:00.000Z  consolidated  ...    None    -5365   38865
+# 8       FY 2024  2024-03-31T00:00:00.000Z  consolidated  ...    None     1893   41664
+# 9       FY 2025  2025-03-31T00:00:00.000Z  consolidated  ...    None     -674   44971
+
+# [10 rows x 12 columns]
+
+# ===== get_score_card('INFY') =====
+#             name   tag        type  ... score_value      score_key score
+# 0    Performance   Low       score  ...         NaN    Performance   NaN
+# 1      Valuation  High       score  ...         NaN      Valuation   NaN
+# 2         Growth   Low       score  ...         NaN         Growth   NaN
+# 3  Profitability  High       score  ...         NaN  Profitability   NaN
+# 4    Entry point   Avg  entryPoint  ...         NaN            NaN   NaN
+# 5      Red flags   Low     redFlag  ...         NaN            NaN   NaN
+
+# [6 rows x 17 columns]
+
+# ===== get_share_holding_pattern('Tata consult') =====
+# Slug URL: /stocks/tata-consultancy-services-TCS
+#                        date  data_pmPctT  ...  data_othPctT  data_rOthPctT
+# 0  2023-12-31T00:00:00.000Z    72.412804  ...      0.840468       5.028612
+# 1  2024-03-31T00:00:00.000Z    71.766054  ...      0.818438       4.865961
+# 2  2024-06-30T00:00:00.000Z    71.766054  ...      0.790864       4.820600
+# 3  2024-09-30T00:00:00.000Z    71.766054  ...      0.777037       4.665814
+# 4  2024-12-31T00:00:00.000Z    71.766054  ...      0.773432       4.636476
+# 5  2025-03-31T00:00:00.000Z    71.766054  ...      0.773289       4.638165
+
+# [6 rows x 14 columns]
+
+# ===== get_dividends_history('ITC ltd') =====
+# Slug URL: /stocks/itc-ITC
+#                         _id   description  dividend  ...  subType value ticker
+# 0  682fc0a3e1eaebd3fa7e7256    Final|7.85  7.850000  ...    Final  7.85    ITC
+# 1  67a6a49b1ba432b32509b205   Interim|6.5  6.500000  ...  Interim   6.5    ITC
+# 2  665a6dfe05bb6ca068f1f359     Final|7.5  7.095100  ...    Final   7.5    ITC
+# 3  65b997d88a2dd7eecd38ac4d  Interim|6.25  5.912583  ...  Interim  6.25    ITC
+# 4  646c0b7999f7f66b45caa04a    Final|6.75  6.385590  ...    Final  6.75    ITC
+# 5  646c0b7999f7f66b45caa04c  Special|2.75  2.601537  ...  Special  2.75    ITC
+
+# [6 rows x 10 columns]
+
+# ===== get_key_ratios('Adani Ports') =====
+# Slug URL: /stocks/adani-ports-and-special-economic-zone-APSE
+#                              0
+# risk                  2.425312
+# 3mAvgVol        2981905.311475
+# 4wpct                -0.214884
+# 52wHigh                1604.95
+# 52wLow                  995.65
+# 52wpct               -2.622973
+# beta                  1.304952
+# bps                 301.474681
+# divYield               0.48975
+# eps                  51.349984
+# inddy                 0.621482
+# indpb                 6.494366
+# indpe                38.285702
+# marketCap        308748.659409
+# mrktCapRank                 24
+# pb                    4.741028
+# pe                   27.834478
+# roe                  18.517619
+# nShareholders          1262911
+# lastPrice               1429.3
+# ttmPe                27.834478
+# marketCapLabel        Largecap
+# 12mVol               33.560865
+# mrktCapf         308748.659409
+# apef                 27.834478
+# pbr                   4.741028
+# etfLiq                0.024756
+# etfLiqLabel               High
+
+# ===== get_equity_screener_data(filters=...) =====
+#                                                  slug  ...   sid
+# 0                    /stocks/reliance-industries-RELI  ...  RELI
+# 1                              /stocks/hdfc-bank-HDBK  ...  HDBK
+# 2               /stocks/tata-consultancy-services-TCS  ...   TCS
+# 3                          /stocks/bharti-airtel-BRTI  ...  BRTI
+# 4                             /stocks/icici-bank-ICBK  ...  ICBK
+# 5                     /stocks/state-bank-of-india-SBI  ...   SBI
+# 6                                /stocks/infosys-INFY  ...  INFY
+# 7     /stocks/life-insurance-corporation-of-india-LIC  ...   LIC
+# 8                          /stocks/bajaj-finance-BJFN  ...  BJFN
+# 9                      /stocks/hindustan-unilever-HLL  ...   HLL
+# 10                                    /stocks/itc-ITC  ...   ITC
+# 11                     /stocks/larsen-and-toubro-LART  ...  LART
+# 12                      /stocks/hcl-technologies-HCLT  ...  HCLT
+# 13                   /stocks/kotak-mahindra-bank-KTKM  ...  KTKM
+# 14          /stocks/sun-pharmaceutical-industries-SUN  ...   SUN
+# 15                   /stocks/maruti-suzuki-india-MRTI  ...  MRTI
+# 16                 /stocks/mahindra-and-mahindra-MAHM  ...  MAHM
+# 17                             /stocks/axis-bank-AXBK  ...  AXBK
+# 18                      /stocks/ultratech-cement-ULTC  ...  ULTC
+# 19                         /stocks/bajaj-finserv-BJFS  ...  BJFS
+# 20                         /stocks/titan-company-TITN  ...  TITN
+# 21                                  /stocks/ntpc-NTPC  ...  NTPC
+# 22                 /stocks/hindustan-aeronautics-HIAE  ...  HIAE
+# 23  /stocks/adani-ports-and-special-economic-zone-...  ...  APSE
+# 24       /stocks/oil-and-natural-gas-corporation-ONGC  ...  ONGC
+# 25                    /stocks/bharat-electronics-BAJE  ...  BAJE
+# 26                     /stocks/adani-enterprises-ADEL  ...  ADEL
+# 27                                 /stocks/wipro-WIPR  ...  WIPR
+# 28                     /stocks/avenue-supermarts-AVEU  ...  AVEU
+# 29       /stocks/power-grid-corporation-of-india-PGRD  ...  PGRD
+# 30                             /stocks/jsw-steel-JSTL  ...  JSTL
+# 31                           /stocks/tata-motors-TAMO  ...  TAMO
+# 32                            /stocks/coal-india-COAL  ...  COAL
+# 33                                 /stocks/zomato-ZOM  ...   ZOM
+# 34                            /stocks/bajaj-auto-BAJA  ...  BAJA
+# 35                          /stocks/nestle-india-NEST  ...  NEST
+# 36                           /stocks/adani-power-ADAN  ...  ADAN
+# 37                   /stocks/interglobe-aviation-INGL  ...  INGL
+# 38                          /stocks/asian-paints-ASPN  ...  ASPN
+# 39                                 /stocks/trent-TREN  ...  TREN
+# 40                                    /stocks/dlf-DLF  ...   DLF
+# 41                 /stocks/indian-oil-corporation-IOC  ...   IOC
+# 42                            /stocks/tata-steel-TISC  ...  TISC
+# 43                 /stocks/jio-financial-services-JIO  ...   JIO
+# 44                     /stocks/grasim-industries-GRAS  ...  GRAS
+# 45                        /stocks/hindustan-zinc-HZNC  ...  HZNC
+# 46            /stocks/sbi-life-insurance-company-SBIL  ...  SBIL
+# 47     /stocks/indian-railway-finance-corporation-IRF  ...   IRF
+# 48                               /stocks/vedanta-VDAN  ...  VDAN
+# 49                    /stocks/divis-laboratories-DIVI  ...  DIVI
+# 50                    /stocks/hyundai-motor-india-HYU  ...   HYU
+# 51           /stocks/hdfc-life-insurance-company-HDFL  ...  HDFL
+# 52                         /stocks/tech-mahindra-TEML  ...  TEML
+# 53                    /stocks/adani-green-energy-ADNA  ...  ADNA
+# 54            /stocks/larsen-and-toubro-infotech-LRTI  ...  LRTI
+# 55                /stocks/solar-industries-india-SLIN  ...  SLIN
+# 56                       /stocks/varun-beverages-VARB  ...  VARB
+# 57                   /stocks/hindalco-industries-HALC  ...  HALC
+# 58         /stocks/bajaj-holdings-and-investment-BJAT  ...  BJAT
+# 59                         /stocks/eicher-motors-EICH  ...  EICH
+
+# [60 rows x 8 columns]
+
+
+
+
+
+
+

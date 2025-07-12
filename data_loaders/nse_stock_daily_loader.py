@@ -1,0 +1,37 @@
+from utils.nse.nse_data_extractor import NSEMasterData
+from datetime import datetime, timedelta
+
+if 'data_loader' not in globals():
+    from mage_ai.data_preparation.decorators import data_loader
+if 'test' not in globals():
+    from mage_ai.data_preparation.decorators import test
+
+
+@data_loader
+def load_data(*args, **kwargs):
+
+    end_date = datetime.now()
+    start_date = end_date - timedelta(days=30)
+
+    nse = NSEMasterData()
+
+
+    # print("\n--- Running download_symbol_master() ---")
+    # nse.download_symbol_master()
+    # # print("NSE Master Sample:\n", nse.nse_data.head(2))
+    # # print("NFO Master Sample:\n", nse.nfo_data.head(2))
+
+    # # Test: get_nse_symbol_master() with both URLs
+    # print("\n--- Running get_nse_symbol_master() for NSE ---")
+    # nse_df = nse.get_nse_symbol_master(nse.nse_url)
+    # print(nse_df.head(2))
+
+    return x
+
+
+@test
+def test_output(output, *args) -> None:
+    """
+    Template code for testing the output of the block.
+    """
+    assert output is not None, 'The output is undefined'

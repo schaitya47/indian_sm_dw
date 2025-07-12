@@ -1,0 +1,44 @@
+blocks:
+- all_upstream_blocks_executed: true
+  color: teal
+  configuration:
+    file_source:
+      path: custom/nifty_50_loader.py
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: nifty_50_loader
+  retry_config: null
+  status: not_executed
+  timeout: null
+  type: custom
+  upstream_blocks: []
+  uuid: nifty_50_loader
+cache_block_output_in_memory: false
+callbacks: []
+concurrency_config: {}
+conditionals: []
+created_at: '2025-07-12 11:19:43.206082+00:00'
+data_integration: null
+description: This pipeline download and loads the nifty 50 companies once a month.
+executor_config: {}
+executor_count: 1
+executor_type: null
+extensions: {}
+name: get_nifty50_companies
+notification_config: {}
+remote_variables_dir: null
+retry_config: {}
+run_pipeline_in_one_process: false
+settings:
+  triggers: null
+spark_config: {}
+tags:
+- monthly
+- Nifty50
+type: python
+uuid: get_nifty50_companies
+variables_dir: /home/chaitya/.mage_data/indian_sm_dw
+widgets: []

@@ -63,7 +63,8 @@ concurrency_config: {}
 conditionals: []
 created_at: '2025-07-07 10:38:01.977874+00:00'
 data_integration: null
-description: This pipeline loads all the data ohlcv data on the daily basis.
+description: This pipeline loads all the data ohlcv data on the daily basis from yfin
+  api's.
 executor_config: {}
 executor_count: 1
 executor_type: null

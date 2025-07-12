@@ -83,10 +83,10 @@ default:
   PINOT_USER: user
   # PostgresSQL
   POSTGRES_CONNECT_TIMEOUT: 10
-  POSTGRES_DBNAME: indian_sm_dw
-  POSTGRES_SCHEMA: stock_landing
-  POSTGRES_USER: postgres
-  POSTGRES_PASSWORD: postgres
+  POSTGRES_DBNAME: mage_db
+  POSTGRES_SCHEMA: public
+  POSTGRES_USER: mageuser
+  POSTGRES_PASSWORD: post@1234
   POSTGRES_HOST: localhost
   POSTGRES_PORT: 5432
 

@@ -1,0 +1,9 @@
+# Result of TCS.NS_insider_purchases
+       Insider Purchases Last 6m      Shares  Trans
+0                      Purchases           0      0
+1                          Sales        <NA>      0
+2    Net Shares Purchased (Sold)           0      0
+3      Total Insider Shares Held  2597244160   <NA>
+4  % Net Shares Purchased (Sold)        <NA>   <NA>
+5                   % Buy Shares        <NA>   <NA>
+6                  % Sell Shares        <NA>   <NA>

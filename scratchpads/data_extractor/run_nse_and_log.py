@@ -1,4 +1,4 @@
-from indian_sm_dw.utils.nse.nse_data_extractor import NSEMasterData
+from nse_data_extractor import NSEMasterData
 from datetime import datetime, timedelta
 from contextlib import redirect_stdout
 import pandas as pd
