@@ -1,0 +1,51 @@
+from utils.nse.nse_data_extractor import NSEMasterData
+from datetime import datetime, timedelta
+import pandas as pd
+
+if 'data_loader' not in globals():
+    from mage_ai.data_preparation.decorators import data_loader
+if 'test' not in globals():
+    from mage_ai.data_preparation.decorators import test
+
+
+@data_loader
+def load_data(symbol,*args, **kwargs):
+        # List of companies
+    # symbol = ["TCS"]
+
+    # # Instantiate dataframe
+    data = pd.DataFrame()
+
+    # Prepare timeframe
+    end_date = datetime.now()
+    start_date = end_date - timedelta(days=9132)
+
+    # Instantiate class
+    nse = NSEMasterData()
+
+    # Test: download_symbol_master()
+    nse.download_symbol_master()
+
+    def fetch_daily_data(symbol,start_date, end_date):
+        try:
+            data = nse.get_history(symbol,"NSE",start_date, end_date,"1d")
+            data['Symbol'] = symbol
+            data.reset_index(inplace=True)
+            return data
+        except Exception as e:
+            print(f"Error fetching data for {symbol}: {e}")
+        
+    for sym in symbol:
+        daily_data = fetch_daily_data(sym,start_date,end_date)
+        if daily_data is not None:
+            data = pd.concat([data, daily_data], ignore_index=True)  
+    return data
+
+
+
+@test
+def test_output(output, *args) -> None:
+    """
+    Template code for testing the output of the block.
+    """
+    assert output is not None, 'The output is undefined'

@@ -138,7 +138,7 @@ class NSEMasterData:
                 time.sleep(random.uniform(3, 6))
                 
                 # Make request with longer timeout
-                response = self.session.get(url, timeout=30, verify=False)
+                response = self.session.get(url, timeout=30)
                 response.raise_for_status()
                 
                 data = response.text.strip()
