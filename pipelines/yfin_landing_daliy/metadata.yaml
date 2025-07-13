@@ -82,5 +82,5 @@ tags:
 - daliy
 type: python
 uuid: yfin_landing_daliy
-variables_dir: /home/chaitya/.mage_data/indian_sm_dw
+variables_dir: C:\Users\61073035/.mage_data\indian_sm_dw
 widgets: []

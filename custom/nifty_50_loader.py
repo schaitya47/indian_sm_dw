@@ -1,4 +1,4 @@
-from utils.nse.nifty_50_csv import download_nifty50_csv
+from utils.nse.nse_data_extractor import NSEMasterData
 from datetime import datetime, timedelta
 
 if 'custom' not in globals():
@@ -9,7 +9,8 @@ if 'test' not in globals():
 
 @custom
 def transform_custom(*args, **kwargs):
-    df = download_nifty50_csv()
+    nse = NSEMasterData()
+    df = nse.download_nifty50_csv()
     df["yfin_symbol"] = df["Symbol"] +".NS"
     return df
 
