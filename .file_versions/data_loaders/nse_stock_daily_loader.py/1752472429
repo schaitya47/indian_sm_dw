@@ -43,7 +43,7 @@ def load_data(symbol: list,*args, **kwargs):
         daily_data = fetch_daily_data(sym,start_date,end_date)
         if daily_data is not None:
             data = pd.concat([data, daily_data], ignore_index=True)
-        wait_time = random.uniform(1, 4)
+        wait_time = random.uniform(1, 10)
         time.sleep(wait_time)
     return data
 
