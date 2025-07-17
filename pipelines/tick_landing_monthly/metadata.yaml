@@ -2,18 +2,52 @@ blocks:
 - all_upstream_blocks_executed: true
   color: null
   configuration: {}
-  downstream_blocks: []
+  downstream_blocks:
+  - tick_stock_monthly_transformer
   executor_config: null
   executor_type: local_python
   has_callback: false
   language: python
   name: tick_stock_monthly_loader
   retry_config: null
-  status: executed
+  status: updated
   timeout: null
   type: data_loader
   upstream_blocks: []
   uuid: tick_stock_monthly_loader
+- all_upstream_blocks_executed: true
+  color: null
+  configuration: {}
+  downstream_blocks:
+  - tick_stock_monthly_exporter
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: tick_stock_monthly_transformer
+  retry_config: null
+  status: executed
+  timeout: null
+  type: transformer
+  upstream_blocks:
+  - tick_stock_monthly_loader
+  uuid: tick_stock_monthly_transformer
+- all_upstream_blocks_executed: true
+  color: null
+  configuration: {}
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: tick_stock_monthly_exporter
+  retry_config: null
+  status: executed
+  timeout: null
+  type: data_exporter
+  upstream_blocks:
+  - tick_stock_monthly_transformer
+  uuid: tick_stock_monthly_exporter
 cache_block_output_in_memory: false
 callbacks: []
 concurrency_config: {}
@@ -39,5 +73,5 @@ tags:
 - fundamental
 type: python
 uuid: tick_landing_monthly
-variables_dir: /home/chaitya/.mage_data/indian_sm_dw
+variables_dir: C:\Users\61073035/.mage_data\indian_sm_dw
 widgets: []
