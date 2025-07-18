@@ -1,69 +1,65 @@
 blocks:
 - all_upstream_blocks_executed: true
-  color: teal
-  configuration:
-    file_source:
-      path: null
-  downstream_blocks:
-  - nse_stock_daily_loader
-  executor_config: null
-  executor_type: local_python
-  has_callback: false
-  language: python
-  name: get_nifty_50_companies
-  retry_config: null
-  status: executed
-  timeout: null
-  type: custom
-  upstream_blocks: []
-  uuid: get_nifty_50_companies
-- all_upstream_blocks_executed: true
   color: null
   configuration: {}
   downstream_blocks:
-  - nse_stock_daily_exporter
+  - tick_stock_monthly_transformer
   executor_config: null
   executor_type: local_python
   has_callback: false
   language: python
-  name: nse_stock_daily_loader
+  name: tick_stock_monthly_loader
   retry_config: null
   status: executed
   timeout: null
   type: data_loader
-  upstream_blocks:
-  - get_nifty_50_companies
-  uuid: nse_stock_daily_loader
+  upstream_blocks: []
+  uuid: tick_stock_monthly_loader
 - all_upstream_blocks_executed: true
   color: null
-  configuration:
-    file_source:
-      path: data_exporters/nse_stock_daily_exporter.py
+  configuration: {}
+  downstream_blocks:
+  - tick_stock_monthly_exporter
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: tick_stock_monthly_transformer
+  retry_config: null
+  status: executed
+  timeout: null
+  type: transformer
+  upstream_blocks:
+  - tick_stock_monthly_loader
+  uuid: tick_stock_monthly_transformer
+- all_upstream_blocks_executed: true
+  color: null
+  configuration: {}
   downstream_blocks: []
   executor_config: null
   executor_type: local_python
   has_callback: false
   language: python
-  name: nse_stock_daily_exporter
+  name: tick_stock_monthly_exporter
   retry_config: null
   status: executed
   timeout: null
   type: data_exporter
   upstream_blocks:
-  - nse_stock_daily_loader
-  uuid: nse_stock_daily_exporter
+  - tick_stock_monthly_transformer
+  uuid: tick_stock_monthly_exporter
 cache_block_output_in_memory: false
 callbacks: []
 concurrency_config: {}
 conditionals: []
-created_at: '2025-07-11 11:37:30.435965+00:00'
+created_at: '2025-07-14 11:46:08.798552+00:00'
 data_integration: null
-description: This pipeline loads all the ohlcv data on the daily basis from nse api.
+description: this pipeline is to load the fundamental of a stock on a monthly basis.
 executor_config: {}
 executor_count: 1
 executor_type: null
 extensions: {}
-name: nse_landing_daily
+name: tick_landing_monthly
 notification_config: {}
 remote_variables_dir: null
 retry_config: {}
@@ -72,9 +68,10 @@ settings:
   triggers: null
 spark_config: {}
 tags:
-- daliy
-- nse_landing
+- monthly
+- tick_landing
+- fundamental
 type: python
-uuid: nse_landing_daily
-variables_dir: /home/chaitya/.mage_data/indian_sm_dw
+uuid: tick_landing_monthly
+variables_dir: C:\Users\61073035/.mage_data\indian_sm_dw
 widgets: []
