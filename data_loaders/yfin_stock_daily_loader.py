@@ -24,15 +24,16 @@ def load_data(symbol: list, *args, **kwargs):
         try:
             data = ticker.history(start=start_date, end=end_date, interval="1d")
             data['Symbol'] = symbol
+            data['load_ts'] = dt.now() 
             data.reset_index(inplace=True)
             data.rename(columns={'Date': 'date'}, inplace=True)
             return data
         except Exception as e:
             print(f"Error fetching data for {symbol}: {e}")
-    cnt = 1
+    # cnt = 1
     for sym in symbol:
-        print("Pointer is here 1",cnt)
-        cnt = cnt + 1
+        # print("Pointer is here 1",cnt)
+        # cnt = cnt + 1
         daily_data = fetch_daily_data(sym,start_date)
         if daily_data is not None:
             data = pd.concat([data, daily_data], ignore_index=True)

@@ -3,7 +3,7 @@ blocks:
   color: teal
   configuration:
     file_source:
-      path: custom/get_nifty_50_companies.py
+      path: custom\get_nifty_50_companies.py
   downstream_blocks:
   - yfin_stock_weekly_loader
   executor_config: null
@@ -36,7 +36,7 @@ blocks:
   upstream_blocks:
   - get_nifty_50_companies
   uuid: yfin_stock_weekly_loader
-- all_upstream_blocks_executed: false
+- all_upstream_blocks_executed: true
   color: null
   configuration:
     file_source:
@@ -55,7 +55,7 @@ blocks:
   upstream_blocks:
   - yfin_stock_weekly_loader
   uuid: yfin_stock_earnings_tans
-- all_upstream_blocks_executed: false
+- all_upstream_blocks_executed: true
   color: null
   configuration:
     file_source:
@@ -97,5 +97,5 @@ tags:
 - weekly
 type: python
 uuid: yfin_landing_weekly
-variables_dir: /home/chaitya/.mage_data/indian_sm_dw
+variables_dir: C:\Users\61073035/.mage_data\indian_sm_dw
 widgets: []
