@@ -1,5 +1,5 @@
 from utils.nse.nse_data_extractor import NSEMasterData
-from datetime import datetime, timedelta
+from datetime import timedelta,datetime as dt
 import pandas as pd
 import time
 import random
@@ -12,14 +12,14 @@ if 'test' not in globals():
 
 @data_loader
 def load_data(symbol: list,*args, **kwargs):
-        # List of companies
+    # List of companies
     # symbol = ["TCS"]
 
     # # Instantiate dataframe
     data = pd.DataFrame()
 
     # Prepare timeframe
-    end_date = datetime.now()
+    end_date = dt.now()
     start_date = end_date - timedelta(days=9132)
 
     # Instantiate class
@@ -32,6 +32,7 @@ def load_data(symbol: list,*args, **kwargs):
         try:
             data = nse.get_history(symbol,"NSE",start_date, end_date,"1d")
             data['Symbol'] = symbol
+            data['load_ts'] = dt.now()
             data.reset_index(inplace=True)
             return data
         except Exception as e:

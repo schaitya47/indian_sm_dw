@@ -12,6 +12,8 @@ def transform_custom(*args, **kwargs):
     nse = NSEMasterData()
     df = nse.download_nifty50_csv()
     df["yfin_symbol"] = df["Symbol"] +".NS"
+    df["load_ts"] = datetime.now()
+    
     return df
 
 

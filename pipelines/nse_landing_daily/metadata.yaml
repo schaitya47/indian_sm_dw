@@ -28,17 +28,17 @@ blocks:
   language: python
   name: nse_stock_daily_loader
   retry_config: null
-  status: executed
+  status: updated
   timeout: null
   type: data_loader
   upstream_blocks:
   - get_nifty_50_companies
   uuid: nse_stock_daily_loader
-- all_upstream_blocks_executed: true
+- all_upstream_blocks_executed: false
   color: null
   configuration:
     file_source:
-      path: data_exporters/nse_stock_daily_exporter.py
+      path: data_exporters\nse_stock_daily_exporter.py
   downstream_blocks: []
   executor_config: null
   executor_type: local_python
@@ -76,5 +76,5 @@ tags:
 - nse_landing
 type: python
 uuid: nse_landing_daily
-variables_dir: /home/chaitya/.mage_data/indian_sm_dw
+variables_dir: C:\Users\61073035/.mage_data\indian_sm_dw
 widgets: []

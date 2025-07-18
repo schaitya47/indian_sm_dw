@@ -1,6 +1,7 @@
 import pandas as pd
 import yfinance as yf
 import json
+from datetime import datetime as dt
 if 'data_loader' not in globals():
     from mage_ai.data_preparation.decorators import data_loader
 if 'test' not in globals():
@@ -9,7 +10,7 @@ if 'test' not in globals():
 
 @data_loader
 def load_data(symbol: list,*args, **kwargs):
-    # symbol = ["SBIN.NS"]
+    # symbol = ["SBIN"]
     c_data = pd.DataFrame()
 
 
@@ -32,7 +33,9 @@ def load_data(symbol: list,*args, **kwargs):
         data = ticker.info
         data = {k: serialize(v) for k, v in data.items() if v is not None}
         data = pd.DataFrame([data])
+        data["load_ts"] = dt.now()
         c_data = merge_dataframes(data, c_data)
+    # print(c_data.columns,"Abcd")
     c_data = c_data.dropna(subset=['marketCap'])
     return c_data
 
