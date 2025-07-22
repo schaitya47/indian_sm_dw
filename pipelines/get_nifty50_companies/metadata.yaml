@@ -12,7 +12,7 @@ blocks:
   language: python
   name: nifty_50_loader
   retry_config: null
-  status: executed
+  status: failed
   timeout: null
   type: custom
   upstream_blocks: []
@@ -29,7 +29,7 @@ blocks:
   language: python
   name: nifty_50_exporter
   retry_config: null
-  status: executed
+  status: updated
   timeout: null
   type: data_exporter
   upstream_blocks:

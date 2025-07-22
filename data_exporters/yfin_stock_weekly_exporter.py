@@ -17,22 +17,25 @@ def export_data_to_postgres(df: dict, **kwargs) -> None:
 
     Docs: https://docs.mage.ai/design/data-loading#postgresql
     """
+    schema_name = 'stock_landing'  # Specify the name of the schema to export data to
+    primary_key = [""]
 
     for key in df:
-        schema_name = 'stock_landing'  # Specify the name of the schema to export data to
-        
-        if key == "info":
-            table_name = 'yfin_stock_info_tbls'  # Specify the name of the table to export data to
-        elif key == "holders":
+        if key == "holders":
             table_name = 'yfin_stock_holders_tbls' 
+            primary_key = ["symbol"]
         elif key == "earn_dates":
             table_name = 'yfin_stock_earning_data_tbls'
+            primary_key = ["symbol","earnings_date"]
         elif key == "earn_est":
             table_name = 'yfin_stock_earning_estimates_tbls' 
+            primary_key = ["symbol","period"]
         elif key == "growth_est":
             table_name = 'yfin_stock_growth_estimate_tbls'
+            primary_key = ["symbol","period"]
         elif key == "recom":
             table_name = 'yfin_stock_recomendations_tbls' 
+            primary_key = ["symbol","period"]
         
         config_path = path.join(get_repo_path(), 'io_config.yaml')
         config_profile = 'default'
@@ -43,5 +46,7 @@ def export_data_to_postgres(df: dict, **kwargs) -> None:
                 schema_name,
                 table_name,
                 index=False,  # Specifies whether to include index in exported table
-                if_exists='replace',  # Specify resolution policy if table name already exists
+                if_exists='append',  #Append mode
+                unique_conflict_method='update',  #Enables upsert
+                unique_constraints= primary_key  #Must match your table's UNIQUE or PRIMARY KEY
             )
