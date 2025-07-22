@@ -30,5 +30,5 @@ def export_data_to_postgres(df: DataFrame, **kwargs) -> None:
             index=False,  # Specifies whether to include index in exported table
             if_exists='append',  #Append mode
             unique_conflict_method='update',  #Enables upsert
-            unique_constraints= ["symbol","_date"]  #Must match your table's UNIQUE or PRIMARY KEY
+            unique_constraints= ["symbol","_timestamp"]  #Must match your table's UNIQUE or PRIMARY KEY
         )
