@@ -34,6 +34,7 @@ def load_data(symbol: list,*args, **kwargs):
         data = {k: serialize(v) for k, v in data.items() if v is not None}
         data = pd.DataFrame([data])
         data["load_ts"] = dt.now()
+        data["symbol"] = sym
         c_data = merge_dataframes(data, c_data)
     # print(c_data.columns,"Abcd")
     c_data = c_data.dropna(subset=['marketCap'])

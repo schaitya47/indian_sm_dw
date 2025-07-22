@@ -13,19 +13,19 @@ def export_data_to_postgres(df: DataFrame, **kwargs) -> None:
     """
     Template for exporting data to a PostgreSQL database.
     Specify your configuration settings in 'io_config.yaml'.
-
     Docs: https://docs.mage.ai/design/data-loading#postgresql
     """
     schema_name = 'stock_landing'  # Specify the name of the schema to export data to
     table_name = 'nifty_50_companies'  # Specify the name of the table to export data to
     config_path = path.join(get_repo_path(), 'io_config.yaml')
     config_profile = 'default'
-
     with Postgres.with_config(ConfigFileLoader(config_path, config_profile)) as loader:
         loader.export(
             df,
             schema_name,
             table_name,
             index=False,  # Specifies whether to include index in exported table
-            if_exists='replace',  # Specify resolution policy if table name already exists
+            if_exists='append',  #Append mode
+            unique_conflict_method='update',  #Enables upsert
+            unique_constraints=['symbol'],  #Must match your table's UNIQUE or PRIMARY KEY
         )
