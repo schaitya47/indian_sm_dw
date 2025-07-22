@@ -799,3 +799,24 @@ TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS stock_landing.yfin_stock_recomendations_tbls
     OWNER to postgres;
+
+-- Table: stock_landing.nse_stock_history_ohlcv_tbls
+
+-- DROP TABLE IF EXISTS stock_landing.nse_stock_history_ohlcv_tbls;
+
+CREATE TABLE IF NOT EXISTS stock_landing.nse_stock_history_ohlcv_tbls
+(
+    _timestamp timestamp without time zone NOT NULL,
+    _open double precision,
+    high double precision,
+    low double precision,
+    _close double precision,
+    volume bigint,
+    symbol text COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT nse_stock_history_ohlcv_tbls_pkey PRIMARY KEY (_timestamp, symbol)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS stock_landing.nse_stock_history_ohlcv_tbls
+    OWNER to postgres;
