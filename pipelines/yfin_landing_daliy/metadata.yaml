@@ -3,7 +3,7 @@ blocks:
   color: teal
   configuration:
     file_source:
-      path: custom\get_nifty_50_companies.py
+      path: null
   downstream_blocks:
   - yfin_stock_daily_loader
   executor_config: null
@@ -31,7 +31,7 @@ blocks:
   language: python
   name: yfin_stock_daily_loader
   retry_config: null
-  status: failed
+  status: updated
   timeout: null
   type: data_loader
   upstream_blocks:
@@ -143,5 +143,5 @@ type: python
 uuid: yfin_landing_daliy
 variables:
   pipeline_name: yfin_landing_daily
-variables_dir: C:\Users\61073035/.mage_data\indian_sm_dw
+variables_dir: /home/chaitya/.mage_data/indian_sm_dw
 widgets: []

@@ -10,7 +10,7 @@ if 'test' not in globals():
 @data_loader
 def load_data(data1: list, *args, **kwargs):
     symbol,time_diff = data1[0],data1[1] 
-    symbol = ["TCS"]
+    # symbol = ["TCS"]
     data = pd.DataFrame()
     # In future st_date will be passed as an argument
     # For now, we will use a hardcoded date 
