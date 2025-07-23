@@ -10,6 +10,7 @@ if 'test' not in globals():
 
 @data_loader
 def load_data(symbol: list,*args, **kwargs):
+    symbol = symbol[0]
     # symbol=["TCS"]
     # Initialize an empty DataFrame to hold the data
     data = {

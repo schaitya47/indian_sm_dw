@@ -1,5 +1,23 @@
 blocks:
 - all_upstream_blocks_executed: true
+  color: teal
+  configuration:
+    file_source:
+      path: custom\get_nifty_50_companies.py
+  downstream_blocks:
+  - tick_stock_monthly_loader
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: get_nifty_50_companies
+  retry_config: null
+  status: not_executed
+  timeout: null
+  type: custom
+  upstream_blocks: []
+  uuid: get_nifty_50_companies
+- all_upstream_blocks_executed: false
   color: null
   configuration: {}
   downstream_blocks:
@@ -13,9 +31,10 @@ blocks:
   status: updated
   timeout: null
   type: data_loader
-  upstream_blocks: []
+  upstream_blocks:
+  - get_nifty_50_companies
   uuid: tick_stock_monthly_loader
-- all_upstream_blocks_executed: true
+- all_upstream_blocks_executed: false
   color: null
   configuration: {}
   downstream_blocks:
@@ -32,10 +51,11 @@ blocks:
   upstream_blocks:
   - tick_stock_monthly_loader
   uuid: tick_stock_monthly_transformer
-- all_upstream_blocks_executed: true
+- all_upstream_blocks_executed: false
   color: null
   configuration: {}
-  downstream_blocks: []
+  downstream_blocks:
+  - landing_stage_load_control_exporter_sql
   executor_config: null
   executor_type: local_python
   has_callback: false
@@ -48,10 +68,53 @@ blocks:
   upstream_blocks:
   - tick_stock_monthly_transformer
   uuid: tick_stock_monthly_exporter
+- all_upstream_blocks_executed: false
+  color: null
+  configuration:
+    data_provider: postgres
+    data_provider_profile: default
+    dbt: {}
+    disable_query_preprocessing: false
+    export_write_policy: append
+    file_source:
+      path: data_exporters\landing_stage_load_control_exporter_sql.sql
+    limit: 1000
+    use_raw_sql: true
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: sql
+  name: landing_stage_load_control_exporter_sql
+  retry_config: null
+  status: not_executed
+  timeout: null
+  type: data_exporter
+  upstream_blocks:
+  - tick_stock_monthly_exporter
+  uuid: landing_stage_load_control_exporter_sql
 cache_block_output_in_memory: false
 callbacks: []
 concurrency_config: {}
-conditionals: []
+conditionals:
+- all_upstream_blocks_executed: false
+  color: null
+  configuration:
+    file_source:
+      path: conditionals\yfin_stock_daily_conditions.py
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: yfin_stock_daily_conditions
+  retry_config: null
+  status: not_executed
+  timeout: null
+  type: conditional
+  upstream_blocks:
+  - tick_stock_monthly_loader
+  uuid: yfin_stock_daily_conditions
 created_at: '2025-07-14 11:46:08.798552+00:00'
 data_integration: null
 description: this pipeline is to load the fundamental of a stock on a monthly basis.
@@ -73,5 +136,7 @@ tags:
 - fundamental
 type: python
 uuid: tick_landing_monthly
+variables:
+  pipeline_name: tick_landing_monthly
 variables_dir: C:\Users\61073035/.mage_data\indian_sm_dw
 widgets: []
