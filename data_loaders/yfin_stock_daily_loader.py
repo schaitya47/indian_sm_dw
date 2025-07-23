@@ -8,13 +8,14 @@ if 'test' not in globals():
 
 
 @data_loader
-def load_data(symbol: list, *args, **kwargs):
-    # symbol = ["TCS"]
+def load_data(data1: list, *args, **kwargs):
+    symbol,time_diff = data1[0],data1[1] 
+    symbol = ["TCS"]
     data = pd.DataFrame()
     # In future st_date will be passed as an argument
     # For now, we will use a hardcoded date 
     end_date = dt.now()
-    start_date = end_date - timedelta(days=9132)
+    start_date = end_date - timedelta(days=time_diff)
 
     # Need to devlop further to handle incremental data loading
     # For now, we will fetch daily data from 2024-01-01 to today
@@ -37,7 +38,6 @@ def load_data(symbol: list, *args, **kwargs):
         daily_data = fetch_daily_data(sym,start_date)
         if daily_data is not None:
             data = pd.concat([data, daily_data], ignore_index=True)
-
     return data
 
 

@@ -31,13 +31,13 @@ blocks:
   language: python
   name: yfin_stock_daily_loader
   retry_config: null
-  status: updated
+  status: failed
   timeout: null
   type: data_loader
   upstream_blocks:
   - get_nifty_50_companies
   uuid: yfin_stock_daily_loader
-- all_upstream_blocks_executed: true
+- all_upstream_blocks_executed: false
   color: null
   configuration:
     file_path: transformers/yfin_stock_daily_transformer.py
@@ -57,13 +57,14 @@ blocks:
   upstream_blocks:
   - yfin_stock_daily_loader
   uuid: yfin_stock_daily_transformer
-- all_upstream_blocks_executed: true
+- all_upstream_blocks_executed: false
   color: null
   configuration:
     file_path: data_exporters/yfin_stock_daily_exporter.py
     file_source:
       path: null
-  downstream_blocks: []
+  downstream_blocks:
+  - landing_stage_load_control_exporter_sql
   executor_config: null
   executor_type: local_python
   has_callback: false
@@ -76,10 +77,49 @@ blocks:
   upstream_blocks:
   - yfin_stock_daily_transformer
   uuid: yfin_stock_daily_exporter
+- all_upstream_blocks_executed: false
+  color: null
+  configuration:
+    data_provider: postgres
+    data_provider_profile: default
+    dbt: {}
+    disable_query_preprocessing: true
+    export_write_policy: append
+    limit: 1000
+    use_raw_sql: true
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: sql
+  name: landing_stage_load_control_exporter_sql
+  retry_config: null
+  status: executed
+  timeout: null
+  type: data_exporter
+  upstream_blocks:
+  - yfin_stock_daily_exporter
+  uuid: landing_stage_load_control_exporter_sql
 cache_block_output_in_memory: false
 callbacks: []
 concurrency_config: {}
-conditionals: []
+conditionals:
+- all_upstream_blocks_executed: false
+  color: null
+  configuration: {}
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: yfin_stock_daily_conditions
+  retry_config: null
+  status: updated
+  timeout: null
+  type: conditional
+  upstream_blocks:
+  - yfin_stock_daily_loader
+  uuid: yfin_stock_daily_conditions
 created_at: '2025-07-07 10:38:01.977874+00:00'
 data_integration: null
 description: This pipeline loads all the data ohlcv data on the daily basis from yfin
@@ -101,5 +141,7 @@ tags:
 - daliy
 type: python
 uuid: yfin_landing_daliy
+variables:
+  pipeline_name: yfin_landing_daily
 variables_dir: C:\Users\61073035/.mage_data\indian_sm_dw
 widgets: []

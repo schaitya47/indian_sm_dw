@@ -820,3 +820,26 @@ TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS stock_landing.nse_stock_history_ohlcv_tbls
     OWNER to postgres;
+    
+-- Table: stock_landing.stage_load_control
+
+-- DROP TABLE IF EXISTS stock_landing.stage_load_control;
+
+CREATE TABLE IF NOT EXISTS stock_landing.stage_load_control
+(
+    pipeline_name character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    last_success_timestamp timestamp without time zone,
+    status character varying(20) COLLATE pg_catalog."default" DEFAULT 'READY'::character varying,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT stage_load_control_pkey PRIMARY KEY (pipeline_name)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS stock_landing.stage_load_control
+    OWNER to postgres;
+
+UPDATE stock_landing.stage_load_control 
+SET last_success_timestamp = '1995-01-01 00:00:00' 
+WHERE last_success_timestamp IS NULL;
