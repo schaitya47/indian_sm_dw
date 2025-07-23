@@ -3,7 +3,7 @@ blocks:
   color: teal
   configuration:
     file_source:
-      path: custom\get_nifty_50_companies.py
+      path: null
   downstream_blocks:
   - yfin_stock_monthly_loader
   executor_config: null
@@ -83,7 +83,7 @@ blocks:
     disable_query_preprocessing: false
     export_write_policy: append
     file_source:
-      path: data_exporters\landing_stage_load_control_exporter_sql.sql
+      path: null
     limit: 1000
     use_raw_sql: true
   downstream_blocks: []
@@ -107,7 +107,7 @@ conditionals:
   color: null
   configuration:
     file_source:
-      path: conditionals\yfin_stock_daily_conditions.py
+      path: null
   downstream_blocks: []
   executor_config: null
   executor_type: local_python
@@ -128,7 +128,7 @@ executor_config: {}
 executor_count: 1
 executor_type: null
 extensions: {}
-name: yfin_landing_montly
+name: yfin_landing_monthly
 notification_config: {}
 remote_variables_dir: null
 retry_config: {}
@@ -140,8 +140,8 @@ tags:
 - yfin_landing
 - monthly
 type: python
-uuid: yfin_landing_montly
+uuid: yfin_landing_monthly
 variables:
   pipeline_name: yfin_landing_monthly
-variables_dir: C:\Users\61073035/.mage_data\indian_sm_dw
+variables_dir: /home/chaitya/.mage_data/indian_sm_dw
 widgets: []

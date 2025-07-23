@@ -843,3 +843,12 @@ ALTER TABLE IF EXISTS stock_landing.stage_load_control
 UPDATE stock_landing.stage_load_control 
 SET last_success_timestamp = '1995-01-01 00:00:00' 
 WHERE last_success_timestamp IS NULL;
+
+INSERT INTO stock_landing.stage_load_control (pipeline_name)
+VALUES 
+  ('get_nifty50_companies'),
+  ('nse_landing_daily'),
+  ('tick_landing_monthly'),
+  ('yfin_landing_daliy'),
+  ('yfin_landing_monthly'),
+  ('yfin_landing_weekly');

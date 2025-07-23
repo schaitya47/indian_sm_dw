@@ -14,7 +14,7 @@ if 'test' not in globals():
 def load_data(symbol: list,*args, **kwargs):
     symbol,time_diff = symbol[0],symbol[1] 
     # List of companies
-    symbol = ["TCS"]
+    # symbol = ["TCS"]
 
     # # Instantiate dataframe
     data = pd.DataFrame()
