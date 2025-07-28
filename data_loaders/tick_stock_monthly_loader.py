@@ -9,7 +9,8 @@ if 'test' not in globals():
 
 
 @data_loader
-def load_data(*args, **kwargs):
+def load_data(symbol: list,*args, **kwargs):
+    symbol,time_diff = symbol[0],symbol[1]
     data = {
         "income": pd.DataFrame(),
         "balance_sheet": pd.DataFrame(),
@@ -41,10 +42,16 @@ def load_data(*args, **kwargs):
     sym = data["screener"]["info.ticker"]
     sid = data["screener"]["sid"]
     slug_url = data["screener"]["slug"]
+
+    time_period = 0
+    if time_diff < 180:
+        time_period = 6
+    else:
+        time_period = 100
     for i in range(0,50):
-        data["income"]  = convert_to_dataframe(ttp.get_income_data(sid[i],num_time_periods=40), sym[i], data["income"])
-        data["balance_sheet"] = convert_to_dataframe(ttp.get_balance_sheet_data(sid[i],num_time_periods=40), sym[i], data["balance_sheet"])
-        data["cash_flow"] = convert_to_dataframe(ttp.get_cash_flow_data(sid[i],num_time_periods=40), sym[i], data["cash_flow"])
+        data["income"]  = convert_to_dataframe(ttp.get_income_data(sid[i],num_time_periods=time_period), sym[i], data["income"])
+        data["balance_sheet"] = convert_to_dataframe(ttp.get_balance_sheet_data(sid[i],num_time_periods=time_period), sym[i], data["balance_sheet"])
+        data["cash_flow"] = convert_to_dataframe(ttp.get_cash_flow_data(sid[i],num_time_periods=time_period), sym[i], data["cash_flow"])
         data["score_card"] = convert_to_dataframe(ttp.get_score_card(sid[i]), sym[i], data["score_card"])
         if slug_url[i] is not None:
             # print(slug_url[i])
@@ -62,7 +69,7 @@ def test_output(output, *args) -> None:
 
 
 # def load_data1():
-#     symbol = ["larsen-and-toubro"]  
+#     symbol = ["TCS"]  
 
 #     ttp = Tickertape()
 #     screnner_filters = list(ttp.get_equity_screener_all_filters().values())
@@ -75,7 +82,8 @@ def test_output(output, *args) -> None:
 #     # _,raw_data = ttp.get_ticker(symbol[0])
 #     # slug_url = raw_data[0].get('slug') if raw_data else None
 #     # fetching income data for the given symbol and returns dataframe with 40 time periods
-#     # res = ttp.get_income_data(symbol[0],num_time_periods=40)
+#     print(symbol)
+#     res = ttp.get_income_data(symbol[0],num_time_periods=3)
 #     # res = ttp.get_balance_sheet_data(symbol[0],num_time_periods=40)
 #     # res = ttp.get_cash_flow_data(symbol[0],num_time_periods=40)
 #     # res = ttp.get_score_card(symbol[0])
@@ -90,10 +98,10 @@ def test_output(output, *args) -> None:
 #     #         x.append(res[item])
 #     #     res = ttp.get_equity_screener_data(filters=x, sortby='mrktCapf', number_of_records=50)
 #     #     print(res)
-#     x = ttp.get_key_ratios(slug_url[0])
-#     x = x.T
-#     x['Symbol'] = symbol[0]
-#     return x
+#     # x = ttp.get_key_ratios(slug_url[0])
+#     # x = x.T
+#     # x['Symbol'] = symbol[0]
+#     return res
 
 # if __name__ == "__main__":
 #     data = load_data1()

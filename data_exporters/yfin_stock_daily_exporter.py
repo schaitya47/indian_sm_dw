@@ -33,3 +33,4 @@ def export_data_to_postgres(df: DataFrame, **kwargs) -> None:
             unique_constraints= ["symbol","_date"]  #Must match your table's UNIQUE or PRIMARY KEY
 
         )
+        

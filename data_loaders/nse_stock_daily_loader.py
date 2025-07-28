@@ -12,6 +12,7 @@ if 'test' not in globals():
 
 @data_loader
 def load_data(symbol: list,*args, **kwargs):
+    symbol,time_diff = symbol[0],symbol[1] 
     # List of companies
     # symbol = ["TCS"]
 
@@ -20,7 +21,7 @@ def load_data(symbol: list,*args, **kwargs):
 
     # Prepare timeframe
     end_date = dt.now()
-    start_date = end_date - timedelta(days=9132)
+    start_date = end_date - timedelta(days=time_diff)
 
     # Instantiate class
     nse = NSEMasterData()
