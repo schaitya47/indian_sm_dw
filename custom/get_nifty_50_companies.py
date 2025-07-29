@@ -12,6 +12,14 @@ if 'test' not in globals():
 
 @custom
 def load_data_from_postgres(*args, **kwargs):
+
+    # This function loads the list of Nifty 50 companies from a PostgreSQL database.
+    # It checks the last success timestamp of the pipeline and returns the list of companies
+    # if the data is not already loaded within the specified time criteria.
+    # The time criteria is set based on the pipeline name.
+    # It returns a list of companies and the time difference since the last run.
+
+    # pipeline_name is passed as a pipeline parameter/argument.
     pipeline_name = kwargs.get("pipeline_name")
     """
     Template for loading data from a PostgreSQL database.
@@ -19,21 +27,40 @@ def load_data_from_postgres(*args, **kwargs):
 
     Docs: https://docs.mage.ai/design/data-loading#postgresql
     """
+    # SQL query to fetch the list of Nifty 50 companies.
+    # This query retrieves the 'symbol' column from the 'nifty_50_companies
     query = 'SELECT symbol FROM stock_landing.nifty_50_companies;'
+
+    # SQL query to fetch the last success timestamp of the pipeline.
+    # This query retrieves the 'last_success_timestamp' from the 'stage_load_control' table
+    # where the 'pipeline_name' matches the specified pipeline name.
     query2 = f"SELECT last_success_timestamp FROM stock_landing.stage_load_control WHERE pipeline_name = '{pipeline_name}'"
     config_path = path.join(get_repo_path(), 'io_config.yaml')
     config_profile = 'default'
+
+    # Initialize an empty list to store the list of companies and last run timestamp.
     list_of_comp = []
     last_run_ts = []
+
+    # Load the data from PostgreSQL using the specified configuration.
+    # The 'ConfigFileLoader' is used to load the configuration settings from 'io_config
     with Postgres.with_config(ConfigFileLoader(config_path, config_profile)) as loader:
         list_of_comp = loader.load(query)
         last_run_ts = loader.load(query2)
 
+    # converting dataframe to list
+    # Extract the last success timestamp from the loaded data.
     last_run_ts =  last_run_ts['last_success_timestamp'].tolist()
+
+    # calculate the time difference between the current time and the last run timestamp
     time_diff = dt.now() - last_run_ts[0]
     time_diff = time_diff.days
+
+    # created time_diff_criteria variable to set the criteria for time difference
     time_diff_criteria = 0
 
+    # Set the time difference criteria based on the pipeline name.
+    # This determines how often the data should be loaded based on the pipeline's frequency.
     if pipeline_name in ["yfin_landing_daily","nse_landing_daily"]:
         time_diff_criteria = 1
     elif pipeline_name == "yfin_landing_weekly":
@@ -41,6 +68,8 @@ def load_data_from_postgres(*args, **kwargs):
     elif pipeline_name in ["yfin_landing_monthly","tick_landing_monthly"]:
         time_diff_criteria = 30
     
+    # If the time difference is less than the criteria, return None to indicate no new data to load.
+    # Otherwise, return the list of companies and the time difference.
     if time_diff < time_diff_criteria:
         print("No new data to load, returning existing list of companies.")
         return None 

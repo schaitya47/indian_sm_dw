@@ -10,7 +10,14 @@ if 'test' not in globals():
 
 @data_loader
 def load_data(symbol: list,*args, **kwargs):
+    # Symbol is a list where the first element is a list of stock symbols
+    # and the second element is the number of days to look back for data.
+    # This data loader function loads financial data from Tickertape for the given symbols.
+    # It fetches data for the last 'time_diff' days and returns a dictionary of DataFrames
     symbol,time_diff = symbol[0],symbol[1]
+
+    # Initialize a dictionary to hold DataFrames for different financial data
+    # Each key corresponds to a type of financial data, and the value is a DataFrame
     data = {
         "income": pd.DataFrame(),
         "balance_sheet": pd.DataFrame(),
@@ -21,9 +28,14 @@ def load_data(symbol: list,*args, **kwargs):
         "key_ratios": pd.DataFrame(),
         "screener" : pd.DataFrame()
     }
+
+    # Function to convert fetched data into a DataFrame and append it to the existing DataFrame
+    # This function checks if the fetched data is None or empty, and if not, it appends it to the existing DataFrame
+    # It also adds the symbol and load timestamp to the DataFrame
+    # Returns the updated DataFrame
     def convert_to_dataframe(c_data,symbol,data):
         if c_data is None:
-            print(c_data)
+            # print(c_data)
             return data if data is not None else pd.DataFrame()
         c_data['Symbol'] = symbol
         c_data['load_ts'] = dt.now()
@@ -33,21 +45,39 @@ def load_data(symbol: list,*args, **kwargs):
             data = pd.concat([data,c_data], ignore_index=True)
         return data
     
+    # Instantiate the Tickertape class to fetch financial data
+    # This class is responsible for fetching data from Tickertape
     ttp = Tickertape()
+
     # cnt = 1
-    # getting all equity screener filters
-    # and fetching data for the top 60 companies sorted by market capitalization 60 and not 50 because page size is 20
-    screnner_filters = list(ttp.get_equity_screener_all_filters().values())
-    data["screener"] = ttp.get_equity_screener_data(filters=screnner_filters, sortby="mrktCapf",number_of_records=60)
+    # This function retrieves all available filters for the equity screener
+    # It returns a list of filters that can be used to fetch specific financial data
+    screener_filters = list(ttp.get_equity_screener_all_filters().values())
+
+    # Fetching the equity screener data with the specified filters, sorting by market capitalization.
+    # Data is fetched for the top 60 companies sorted by market capitalization 60 and not 50 because page size is 20
+    data["screener"] = ttp.get_equity_screener_data(filters=screener_filters, sortby="mrktCapf",number_of_records=60)
+
+    # Extracting the stock symbols, IDs, and slug URLs from the screener data
+    # These will be used to fetch detailed financial data for each stock
     sym = data["screener"]["info.ticker"]
     sid = data["screener"]["sid"]
     slug_url = data["screener"]["slug"]
 
+    # Determine the time period for fetching financial data based on the time_diff
+    # If time_diff is less than 180 days, use 6 months; otherwise, use 100 months
+    # This is used to specify the number of time periods for fetching historical financial data
     time_period = 0
     if time_diff < 180:
         time_period = 6
     else:
         time_period = 100
+
+    # Loop through each stock symbol and fetch financial data
+    # For each symbol, it fetches income data, balance sheet data, cash flow data
+    # scorecard data, shareholding pattern, dividend history, and key ratios
+    # Each fetched data is converted to a DataFrame and appended to the corresponding DataFrame in `data`
+    # The loop runs for the first 50 symbols in the screener data
     for i in range(0,50):
         data["income"]  = convert_to_dataframe(ttp.get_income_data(sid[i],num_time_periods=time_period), sym[i], data["income"])
         data["balance_sheet"] = convert_to_dataframe(ttp.get_balance_sheet_data(sid[i],num_time_periods=time_period), sym[i], data["balance_sheet"])

@@ -10,9 +10,17 @@ if 'test' not in globals():
 
 @data_loader
 def load_data(symbol: list,*args, **kwargs):
+    # This function fetches the stock data for the given symbol(s) from Yahoo Finance.
+    # It returns a DataFrame with the stock information including market cap, load timestamp, and symbol.
+
+    # symbol is a list of stock symbols and time_diff is the time difference in days to fetch the data. But we are not using time_diff in this function.
+    # symbol[0] is list of symbols
     symbol = symbol[0]
+
+
     # symbol=["TCS"]
-    # Initialize an empty DataFrame to hold the data
+    # initalize an dict of DataFrames to hold the empty dataframes for each type of data
+    # This will be used to store the data fetched from Yahoo Finance for each symbol.
     data = {
         # "info": pd.DataFrame(), #Moving the info to other loader as it requires a lot of transformation.
         "holders": pd.DataFrame(),
@@ -23,10 +31,10 @@ def load_data(symbol: list,*args, **kwargs):
     }
 
 
-    # Need to devlop further to handle incremental data loading
-    # For now, we will fetch daily data from 2024-01-01 to today
-    # and overwrite the existing data
-    def convert_to_dataframe(data,symbol,c_data):
+    # Function to merge the current DataFrame with the master DataFrame.
+    # It concatenates the two DataFrames and ignores the index, ensuring that the columns are not ignored.
+    # If the current DataFrame is None, it returns the master DataFrame.
+    def merge_dataframe(data,symbol,c_data):
         if data is None:
             return c_data if c_data is not None else pd.DataFrame()
         data['Symbol'] = symbol
@@ -36,24 +44,29 @@ def load_data(symbol: list,*args, **kwargs):
             data = pd.concat([c_data,data], ignore_index=True)
         return data
 
+    # Loop through each symbol and fetch the data
     for sym in symbol:
         ticker = yf.Ticker(sym+".NS")
 
-        data["holders"]  = convert_to_dataframe(ticker.get_major_holders().T, sym, data["holders"])
+        # data is transposed to have the data as columns instead of rows
+        # This is done because the data have only one row and multiple columns.
+        data["holders"]  = merge_dataframe(ticker.get_major_holders().T, sym, data["holders"])
 
+        # earnings_dates, earnings_estimate, growth_estimates, and recommendations are fetched from the ticker object
+        # The index is reset because the index hold the date and we want that as it's a key column.
         earn_dates = ticker.earnings_dates
         earn_dates.reset_index(inplace=True)
-        data["earn_dates"] = convert_to_dataframe(earn_dates, sym, data["earn_dates"])
+        data["earn_dates"] = merge_dataframe(earn_dates, sym, data["earn_dates"])
 
         earn_est = ticker.get_earnings_estimate()
         earn_est.reset_index(inplace=True)
-        data["earn_est"] = convert_to_dataframe(earn_est, sym, data["earn_est"])
+        data["earn_est"] = merge_dataframe(earn_est, sym, data["earn_est"])
 
         growth_est = ticker.get_growth_estimates()
         growth_est.reset_index(inplace=True)
-        data["growth_est"] = convert_to_dataframe(growth_est, sym, data["growth_est"])
+        data["growth_est"] = merge_dataframe(growth_est, sym, data["growth_est"])
 
-        data["recom"] = convert_to_dataframe(ticker.recommendations, sym, data["recom"])
+        data["recom"] = merge_dataframe(ticker.recommendations, sym, data["recom"])
 
     return data
 
