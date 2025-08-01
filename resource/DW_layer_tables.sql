@@ -36,7 +36,7 @@ DO $$
 DECLARE
     d DATE := '1995-01-01';
 BEGIN
-    WHILE d <= CURRENT_DATE LOOP
+    WHILE d <= '2045-12-31' LOOP
         INSERT INTO stock_dw.dim_date (
             date_key,
             nk_full_date,
@@ -97,17 +97,18 @@ CREATE TABLE stock_dw.dim_stock (
 --====================================================Create Fact Ohlcv============================================================
 CREATE TABLE stock_dw.fact_ohlcv (
     ohlcv_key SERIAL PRIMARY KEY,
-    date_key INTEGER NOT NULL REFERENCES stock_dw.dim_date(date_key),
-    stock_key INTEGER NOT NULL REFERENCES stock_dw.dim_stock(stock_key),
-    source_key INTEGER NOT NULL REFERENCES stock_dw.dim_source(source_key),
+    date_key BIGINT NOT NULL REFERENCES stock_dw.dim_date(date_key),
+    stock_key BIGINT NOT NULL REFERENCES stock_dw.dim_stock(stock_key),
+    source_key BIGINT NOT NULL REFERENCES stock_dw.dim_source(source_key),
     open_price DOUBLE PRECISION,
     high_price DOUBLE PRECISION,
     low_price DOUBLE PRECISION,
     close_price DOUBLE PRECISION,
-    volume INTEGER,
+    volume BIGINT,
     dividends DOUBLE PRECISION,       -- Nullable, mostly for YFinance
     stock_splits DOUBLE PRECISION,    -- Nullable, mostly for YFinance
-    load_ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    load_ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fact_ohlcv_unique_key UNIQUE (date_key, stock_key, source_key)
 );
 --====================================================Create Fact Balance Sheet============================================================
 CREATE TABLE stock_dw.fact_balance_sheet (
