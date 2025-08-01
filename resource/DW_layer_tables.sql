@@ -1,30 +1,20 @@
 --====================================================== To create a date table=========================================================
--- Step 0: Create Stage Load Control Table
-CREATE TABLE IF NOT EXISTS stock_dw.stage_load_control
-(
-    pipeline_name character varying(50) COLLATE pg_catalog."default" NOT NULL,
-    last_success_timestamp timestamp without time zone,
-    status character varying(20) COLLATE pg_catalog."default" DEFAULT 'READY'::character varying,
-    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT stage_load_control_pkey PRIMARY KEY (pipeline_name)
-)
+-- Step 0: load dw pipeline to control table
+INSERT INTO stock_landing.stage_load_control (pipeline_name)
+VALUES 
+  ('dim_date_dw'),
+  ('dim_source_dw'),
+  ('dim_stock_dw'),
+  ('fact_ohlcv_dw'),
+  ('fact_balance_sheet_dw'),
+  ('fact_cashflow_dw'),
+  ('fact_income_dw'),
+  ('fact_key_ratios_dw'),
+  ('fact_recommendations_dw');
 
 UPDATE stock_landing.stage_load_control 
 SET last_success_timestamp = '1995-01-01 00:00:00' 
 WHERE last_success_timestamp IS NULL;
-
-INSERT INTO stock_dw.stage_load_control (pipeline_name)
-VALUES 
-  ('dim_date'),
-  ('dim_source'),
-  ('dim_stock'),
-  ('fact_ohlcv'),
-  ('fact_balance_sheet'),
-  ('fact_cashflow'),
-  ('fact_income'),
-  ('fact_key_ratios'),
-  ('fact_recommendations');
 
 -- Step 1: Create the dim_date table
 CREATE TABLE stock_dw.dim_date (
@@ -81,10 +71,16 @@ CREATE TABLE stock_dw.dim_source
     source_name TEXT NOT NULL,
     source_url TEXT,
     load_ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
-;
+);
+
 ALTER TABLE IF EXISTS stock_dw.dim_source
     OWNER to postgres;
+
+INSERT INTO stock_dw.dim_source (source_name, source_url)
+VALUES
+  ('NSE',   'https://www.nseindia.com/'),
+  ('YFIN',  'https://finance.yahoo.com/'),
+  ('TICK',  'https://www.tickertape.in/');
 --====================================================Create Dim Stock================================================================
 
 CREATE TABLE stock_dw.dim_stock (
