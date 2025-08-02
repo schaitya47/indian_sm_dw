@@ -28,7 +28,7 @@ ALTER TABLE IF EXISTS stock_landing.nifty_50_companies
 CREATE TABLE IF NOT EXISTS stock_landing.tick_stock_balance_sheet_tbls
 (
     display_period text COLLATE pg_catalog."default" NOT NULL,
-    end_date text COLLATE pg_catalog."default",
+    end_date timestamp without time zone,
     reporting text COLLATE pg_catalog."default",
     bal_csti double precision,
     bal_trec double precision,
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS stock_landing.tick_stock_balance_sheet_tbls
     bal_ncl double precision,
     bal_dta double precision,
     symbol text COLLATE pg_catalog."default" NOT NULL,
-    load_ts text COLLATE pg_catalog."default",
+    load_ts timestamp without time zone,
     CONSTRAINT tick_stock_balance_sheet_tbls_pkey PRIMARY KEY (display_period, symbol)
 )
 
@@ -81,7 +81,7 @@ ALTER TABLE IF EXISTS stock_landing.tick_stock_balance_sheet_tbls
 CREATE TABLE IF NOT EXISTS stock_landing.tick_stock_cashflow_tbls
 (
     display_period text COLLATE pg_catalog."default" NOT NULL,
-    end_date text COLLATE pg_catalog."default",
+    end_date timestamp without time zone,
     reporting text COLLATE pg_catalog."default",
     caf_ciwc double precision,
     caf_cfoa double precision,
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS stock_landing.tick_stock_cashflow_tbls
     caf_ncic double precision,
     caf_fcf double precision,
     symbol text COLLATE pg_catalog."default" NOT NULL,
-    load_ts text COLLATE pg_catalog."default",
+    load_ts timestamp without time zone,
     CONSTRAINT tick_stock_cashflow_tbls_pkey PRIMARY KEY (display_period, symbol)
 )
 
@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS stock_landing.tick_stock_dividend_history_tbls
     id text COLLATE pg_catalog."default" NOT NULL,
     description text COLLATE pg_catalog."default",
     dividend double precision,
-    ex_date text COLLATE pg_catalog."default",
+    ex_date timestamp without time zone,
     sid text COLLATE pg_catalog."default",
     _type text COLLATE pg_catalog."default",
     title text COLLATE pg_catalog."default",
@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS stock_landing.tick_stock_dividend_history_tbls
     _value text COLLATE pg_catalog."default",
     ticker text COLLATE pg_catalog."default",
     symbol text COLLATE pg_catalog."default",
-    load_ts text COLLATE pg_catalog."default",
+    load_ts timestamp without time zone,
     CONSTRAINT tick_stock_dividend_history_tbls_pkey PRIMARY KEY (id)
 )
 
@@ -336,7 +336,7 @@ ALTER TABLE IF EXISTS stock_landing.tick_stock_equity_screener_tbls
 CREATE TABLE IF NOT EXISTS stock_landing.tick_stock_income_tbls
 (
     display_period text COLLATE pg_catalog."default" NOT NULL,
-    end_date text COLLATE pg_catalog."default",
+    end_date timestamp without time zone,
     reporting text COLLATE pg_catalog."default",
     q_inc_trev double precision,
     q_inc_raw text COLLATE pg_catalog."default",
@@ -355,7 +355,7 @@ CREATE TABLE IF NOT EXISTS stock_landing.tick_stock_income_tbls
     q_inc_dps text COLLATE pg_catalog."default",
     q_inc_pyr text COLLATE pg_catalog."default",
     symbol text COLLATE pg_catalog."default" NOT NULL,
-    load_ts text COLLATE pg_catalog."default",
+    load_ts timestamp without time zone,
     CONSTRAINT tick_stock_income_tbls_pkey PRIMARY KEY (display_period, symbol)
 )
 
@@ -399,7 +399,7 @@ CREATE TABLE IF NOT EXISTS stock_landing.tick_stock_key_ratios_tbls
     etf_liq double precision,
     etf_liq_label text COLLATE pg_catalog."default",
     symbol text COLLATE pg_catalog."default" NOT NULL,
-    load_ts text COLLATE pg_catalog."default",
+    load_ts timestamp without time zone,
     expense_ratio text COLLATE pg_catalog."default",
     track_err text COLLATE pg_catalog."default",
     ind_expense_ratio text COLLATE pg_catalog."default",
@@ -439,7 +439,7 @@ CREATE TABLE IF NOT EXISTS stock_landing.tick_stock_score_card_tbls
     score_key text COLLATE pg_catalog."default",
     score text COLLATE pg_catalog."default",
     symbol text COLLATE pg_catalog."default" NOT NULL,
-    load_ts text COLLATE pg_catalog."default",
+    load_ts timestamp without time zone,
     CONSTRAINT tick_stock_score_card_tbls_pkey PRIMARY KEY (_name, symbol)
 )
 
@@ -470,7 +470,7 @@ CREATE TABLE IF NOT EXISTS stock_landing.tick_stock_shareholding_pattern_tbls
     data_othpctt double precision,
     data_rothpctt double precision,
     symbol text COLLATE pg_catalog."default" NOT NULL,
-    load_ts text COLLATE pg_catalog."default",
+    load_ts timestamp without time zone,
     CONSTRAINT tick_stock_shareholding_pattern_tbls_pkey PRIMARY KEY (_date, symbol)
 )
 
@@ -492,7 +492,7 @@ CREATE TABLE IF NOT EXISTS stock_landing.yfin_stock_earning_data_tbls
     surprise double precision,
     event_type text COLLATE pg_catalog."default",
     symbol text COLLATE pg_catalog."default" NOT NULL,
-    load_ts text COLLATE pg_catalog."default",
+    load_ts timestamp without time zone,
     CONSTRAINT yfin_stock_earning_data_tbls_pkey PRIMARY KEY (earnings_date, symbol)
 )
 
@@ -517,7 +517,7 @@ CREATE TABLE IF NOT EXISTS stock_landing.yfin_stock_earning_estimates_tbls
     year_ago_eps double precision,
     growth double precision,
     symbol text COLLATE pg_catalog."default" NOT NULL,
-    load_ts text COLLATE pg_catalog."default",
+    load_ts timestamp without time zone,
     CONSTRAINT yfin_stock_earning_estimates_tbls_pkey PRIMARY KEY (symbol, period)
 )
 
@@ -538,7 +538,7 @@ CREATE TABLE IF NOT EXISTS stock_landing.yfin_stock_growth_estimate_tbls
     stock_trend double precision,
     index_trend double precision,
     symbol text COLLATE pg_catalog."default" NOT NULL,
-    load_ts text COLLATE pg_catalog."default",
+    load_ts timestamp without time zone,
     CONSTRAINT yfin_stock_growth_estimate_tbls_pkey PRIMARY KEY (symbol, period)
 )
 
@@ -584,7 +584,7 @@ CREATE TABLE IF NOT EXISTS stock_landing.yfin_stock_holders_tbls
     institutions_float_percent_held double precision,
     institutions_count double precision,
     symbol text COLLATE pg_catalog."default" NOT NULL,
-    load_ts text COLLATE pg_catalog."default",
+    load_ts timestamp without time zone,
     CONSTRAINT yfin_stock_holders_tbls_pkey PRIMARY KEY (symbol)
 )
 
@@ -791,7 +791,7 @@ CREATE TABLE IF NOT EXISTS stock_landing.yfin_stock_recomendations_tbls
     sell smallint,
     strong_sell smallint,
     symbol text COLLATE pg_catalog."default" NOT NULL,
-    load_ts text COLLATE pg_catalog."default",
+    load_ts timestamp without time zone,
     CONSTRAINT yfin_stock_recomendations_tbls_pkey PRIMARY KEY (period, symbol)
 )
 

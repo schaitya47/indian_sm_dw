@@ -158,7 +158,8 @@ CREATE TABLE stock_dw.fact_balance_sheet (
     bal_ncl DOUBLE PRECISION, -- Net Current Liabilities
     bal_dta DOUBLE PRECISION, -- Deferred Tax Assets
 
-    load_ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Timestamp of data load
+    load_ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Timestamp of data load
+    CONSTRAINT fact_balance_sheet_unique_key UNIQUE (date_key, stock_key, source_key, reporting_period)
 );
 --====================================================Create Fact Cashflow============================================================
 CREATE TABLE stock_dw.fact_cashflow (
