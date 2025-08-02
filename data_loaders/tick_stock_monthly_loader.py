@@ -55,8 +55,8 @@ def load_data(symbol: list,*args, **kwargs):
     screener_filters = list(ttp.get_equity_screener_all_filters().values())
 
     # Fetching the equity screener data with the specified filters, sorting by market capitalization.
-    # Data is fetched for the top 60 companies sorted by market capitalization 60 and not 50 because page size is 20
-    data["screener"] = ttp.get_equity_screener_data(filters=screener_filters, sortby="mrktCapf",number_of_records=60)
+    # Data is fetched for the top 200 companies sorted by market capitalization
+    data["screener"] = ttp.get_equity_screener_data(filters=screener_filters, sortby="mrktCapf",number_of_records=200)
 
     # Extracting the stock symbols, IDs, and slug URLs from the screener data
     # These will be used to fetch detailed financial data for each stock
@@ -77,17 +77,21 @@ def load_data(symbol: list,*args, **kwargs):
     # For each symbol, it fetches income data, balance sheet data, cash flow data
     # scorecard data, shareholding pattern, dividend history, and key ratios
     # Each fetched data is converted to a DataFrame and appended to the corresponding DataFrame in `data`
-    # The loop runs for the first 50 symbols in the screener data
-    for i in range(0,50):
-        data["income"]  = convert_to_dataframe(ttp.get_income_data(sid[i],num_time_periods=time_period), sym[i], data["income"])
-        data["balance_sheet"] = convert_to_dataframe(ttp.get_balance_sheet_data(sid[i],num_time_periods=time_period), sym[i], data["balance_sheet"])
-        data["cash_flow"] = convert_to_dataframe(ttp.get_cash_flow_data(sid[i],num_time_periods=time_period), sym[i], data["cash_flow"])
-        data["score_card"] = convert_to_dataframe(ttp.get_score_card(sid[i]), sym[i], data["score_card"])
-        if slug_url[i] is not None:
-            # print(slug_url[i])
-            data["shareholding_pattern"] = convert_to_dataframe(ttp.get_share_holding_pattern(slug_url[i]), sym[i], data["shareholding_pattern"])
-            data["dividend"] = convert_to_dataframe(ttp.get_dividends_history(slug_url[i]), sym[i], data["dividend"])
-            data["key_ratios"] = convert_to_dataframe(ttp.get_key_ratios(slug_url[i]).T, sym[i], data["key_ratios"])
+    # The loop runs for the first 200 symbols in the screener data
+    # cnt  = 1
+    for i in range(0, 200):
+        if sym[i] in symbol:
+            # print(sym[i],cnt)
+            # cnt+=1
+            data["income"]  = convert_to_dataframe(ttp.get_income_data(sid[i],num_time_periods=time_period), sym[i], data["income"])
+            data["balance_sheet"] = convert_to_dataframe(ttp.get_balance_sheet_data(sid[i],num_time_periods=time_period), sym[i], data["balance_sheet"])
+            data["cash_flow"] = convert_to_dataframe(ttp.get_cash_flow_data(sid[i],num_time_periods=time_period), sym[i], data["cash_flow"])
+            data["score_card"] = convert_to_dataframe(ttp.get_score_card(sid[i]), sym[i], data["score_card"])
+            if slug_url[i] is not None:
+                # print(slug_url[i])
+                data["shareholding_pattern"] = convert_to_dataframe(ttp.get_share_holding_pattern(slug_url[i]), sym[i], data["shareholding_pattern"])
+                data["dividend"] = convert_to_dataframe(ttp.get_dividends_history(slug_url[i]), sym[i], data["dividend"])
+                data["key_ratios"] = convert_to_dataframe(ttp.get_key_ratios(slug_url[i]).T, sym[i], data["key_ratios"])
     return data
 
 @test
