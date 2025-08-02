@@ -70,7 +70,7 @@ CREATE TABLE stock_dw.dim_source
     source_key SERIAL PRIMARY KEY,
     source_name TEXT NOT NULL,
     source_url TEXT,
-    load_ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    load_ts TIMESTAMP DEFAULT 
 );
 
 ALTER TABLE IF EXISTS stock_dw.dim_source
@@ -107,7 +107,7 @@ CREATE TABLE stock_dw.fact_ohlcv (
     volume BIGINT,
     dividends DOUBLE PRECISION,       -- Nullable, mostly for YFinance
     stock_splits DOUBLE PRECISION,    -- Nullable, mostly for YFinance
-    load_ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    load_ts TIMESTAMP DEFAULT ,
     CONSTRAINT fact_ohlcv_unique_key UNIQUE (date_key, stock_key, source_key)
 );
 --====================================================Create Fact Balance Sheet============================================================
@@ -158,7 +158,7 @@ CREATE TABLE stock_dw.fact_balance_sheet (
     bal_ncl DOUBLE PRECISION, -- Net Current Liabilities
     bal_dta DOUBLE PRECISION, -- Deferred Tax Assets
 
-    load_ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Timestamp of data load
+    load_ts TIMESTAMP DEFAULT , -- Timestamp of data load
     CONSTRAINT fact_balance_sheet_unique_key UNIQUE (date_key, stock_key, source_key, reporting_period)
 );
 --====================================================Create Fact Cashflow============================================================
@@ -181,8 +181,8 @@ CREATE TABLE stock_dw.fact_cashflow (
     caf_fee TEXT,              -- Free-form field, possibly Fee or Expense Explanation
     caf_ncic DOUBLE PRECISION, -- Net Change in Cash & Cash Equivalents
     caf_fcf DOUBLE PRECISION,  -- Free Cash Flow
-
-    load_ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Timestamp of data load
+    load_ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Timestamp of data load
+    CONSTRAINT fact_cashflow_unique_key UNIQUE (date_key, stock_key, source_key, reporting_period)
 );
 --====================================================Create Fact Income ============================================================
 CREATE TABLE stock_dw.fact_income (
@@ -212,7 +212,7 @@ CREATE TABLE stock_dw.fact_income (
     q_inc_dps TEXT,              -- Dividends Per Share (text format in source)
     q_inc_pyr TEXT,              -- Payout Ratio (text format in source)
 
-    load_ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Timestamp of data load
+    load_ts TIMESTAMP DEFAULT  -- Timestamp of data load
 );
 
 --====================================================Create Fact Income ============================================================
@@ -258,7 +258,7 @@ CREATE TABLE stock_dw.fact_key_ratios (
     ind_track_err TEXT, -- Industry average tracking error
     asst_under_man TEXT, -- Assets under management (text format)
 
-    load_ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Timestamp of data load
+    load_ts TIMESTAMP DEFAULT  -- Timestamp of data load
 );
 
 
@@ -279,7 +279,7 @@ CREATE TABLE stock_dw.fact_recommendations (
     sell SMALLINT,       -- Number recommending 'Sell'
     strong_sell SMALLINT,-- Number recommending 'Strong Sell'
 
-    load_ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Timestamp of data load
+    load_ts TIMESTAMP DEFAULT  -- Timestamp of data load
 );
 
 
