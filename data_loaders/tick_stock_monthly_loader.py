@@ -55,8 +55,8 @@ def load_data(symbol: list,*args, **kwargs):
     screener_filters = list(ttp.get_equity_screener_all_filters().values())
 
     # Fetching the equity screener data with the specified filters, sorting by market capitalization.
-    # Data is fetched for the top 100 companies sorted by market capitalization
-    data["screener"] = ttp.get_equity_screener_data(filters=screener_filters, sortby="mrktCapf",number_of_records=100)
+    # Data is fetched for the top 200 companies sorted by market capitalization
+    data["screener"] = ttp.get_equity_screener_data(filters=screener_filters, sortby="mrktCapf",number_of_records=200)
 
     # Extracting the stock symbols, IDs, and slug URLs from the screener data
     # These will be used to fetch detailed financial data for each stock
@@ -77,12 +77,12 @@ def load_data(symbol: list,*args, **kwargs):
     # For each symbol, it fetches income data, balance sheet data, cash flow data
     # scorecard data, shareholding pattern, dividend history, and key ratios
     # Each fetched data is converted to a DataFrame and appended to the corresponding DataFrame in `data`
-    # The loop runs for the first 100 symbols in the screener data
-    cnt  = 1
-    for i in range(0, 100):
+    # The loop runs for the first 200 symbols in the screener data
+    # cnt  = 1
+    for i in range(0, 200):
         if sym[i] in symbol:
-            print(sym[i],cnt)
-            cnt+=1
+            # print(sym[i],cnt)
+            # cnt+=1
             data["income"]  = convert_to_dataframe(ttp.get_income_data(sid[i],num_time_periods=time_period), sym[i], data["income"])
             data["balance_sheet"] = convert_to_dataframe(ttp.get_balance_sheet_data(sid[i],num_time_periods=time_period), sym[i], data["balance_sheet"])
             data["cash_flow"] = convert_to_dataframe(ttp.get_cash_flow_data(sid[i],num_time_periods=time_period), sym[i], data["cash_flow"])
