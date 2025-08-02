@@ -259,8 +259,8 @@ CREATE TABLE stock_dw.fact_key_ratios (
     ind_expense_ratio TEXT, -- Industry average expense ratio
     ind_track_err TEXT, -- Industry average tracking error
     asst_under_man TEXT, -- Assets under management (text format)
-
-    load_ts TIMESTAMP without time zone  -- Timestamp of data load
+    load_ts TIMESTAMP without time zone,  -- Timestamp of data load
+    CONSTRAINT fact_key_ratios_unique_key UNIQUE (date_key, stock_key, source_key)
 );
 
 
