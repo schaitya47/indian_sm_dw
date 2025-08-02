@@ -15,8 +15,8 @@ FROM stock_landing.yfin_stock_history_ohlcv_tbls y
 JOIN stock_dw.dim_date d ON d.nk_full_date = y._date::date
 JOIN stock_dw.dim_stock s ON s.nk_symbol = y.symbol
 JOIN stock_dw.dim_source src ON src.source_name = 'YFIN'
-
-union all 
+WHERE y.load_ts > (SELECT last_success_timestamp FROM {{ df_1 }})
+UNION ALL
 SELECT
     d.date_key,
     s.stock_key,
@@ -33,3 +33,4 @@ FROM stock_landing.nse_stock_history_ohlcv_tbls n
 JOIN stock_dw.dim_date d ON d.nk_full_date = n._timestamp::date
 JOIN stock_dw.dim_stock s ON s.nk_symbol = n.symbol
 JOIN stock_dw.dim_source src ON src.source_name = 'NSE'
+WHERE n.load_ts > (SELECT last_success_timestamp FROM {{ df_1 }})
