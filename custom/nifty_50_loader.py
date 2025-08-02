@@ -9,9 +9,13 @@ if 'test' not in globals():
 
 @custom
 def transform_custom(*args, **kwargs):
+    # This function is used to download the Nifty 50 companies data from NSE and transform it.
+    # It returns a DataFrame with the required columns.
     nse = NSEMasterData()
     df = nse.download_nifty50_csv()
     df["yfin_symbol"] = df["Symbol"] +".NS"
+    df["load_ts"] = datetime.now()
+    
     return df
 
 

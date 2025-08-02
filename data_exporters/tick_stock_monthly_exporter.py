@@ -19,23 +19,32 @@ def export_data_to_postgres(df: dict, **kwargs) -> None:
     """
     schema_name = 'stock_landing'  # Specify the name of the schema to export data to
     primary_key = [""]
-
     for key in df:
-        if key == "holders":
-            table_name = 'yfin_stock_holders_tbls' 
+        
+        if key == "income":
+            table_name = 'tick_stock_income_tbls'  # Specify the name of the table to export data to
+            primary_key = ["symbol","display_period"]   
+        elif key == "balance_sheet":
+            table_name = 'tick_stock_balance_sheet_tbls' 
+            primary_key = ["symbol","display_period"] 
+        elif key == "cash_flow":
+            table_name = 'tick_stock_cashflow_tbls'
+            primary_key = ["symbol","display_period"]       
+        elif key == "score_card":
+            table_name = 'tick_stock_score_card_tbls'
+            primary_key = ["symbol","_name"]
+        elif key == "shareholding_pattern":
+            table_name = 'tick_stock_shareholding_pattern_tbls' 
+            primary_key = ["symbol","_date"]
+        elif key == "dividend":
+            table_name = 'tick_stock_dividend_history_tbls'
+            primary_key = ["id"]
+        elif key == "key_ratios":
+            table_name = 'tick_stock_key_ratios_tbls'
             primary_key = ["symbol"]
-        elif key == "earn_dates":
-            table_name = 'yfin_stock_earning_data_tbls'
-            primary_key = ["symbol","earnings_date"]
-        elif key == "earn_est":
-            table_name = 'yfin_stock_earning_estimates_tbls' 
-            primary_key = ["symbol","period"]
-        elif key == "growth_est":
-            table_name = 'yfin_stock_growth_estimate_tbls'
-            primary_key = ["symbol","period"]
-        elif key == "recom":
-            table_name = 'yfin_stock_recomendations_tbls' 
-            primary_key = ["symbol","period"]
+        elif key == 'screener':
+            table_name = 'tick_stock_equity_screener_tbls' 
+            primary_key = ["info_ticker"]
         
         config_path = path.join(get_repo_path(), 'io_config.yaml')
         config_profile = 'default'

@@ -3,9 +3,9 @@ blocks:
   color: teal
   configuration:
     file_source:
-      path: custom\get_nifty_50_companies.py
+      path: null
   downstream_blocks:
-  - yfin_stock_weekly_loader
+  - yfin_stock_monthly_loader
   executor_config: null
   executor_type: local_python
   has_callback: false
@@ -23,39 +23,39 @@ blocks:
     file_source:
       path: null
   downstream_blocks:
-  - yfin_stock_earnings_tans
+  - yfin_stock_daily_transformer
   executor_config: null
   executor_type: local_python
   has_callback: false
   language: python
-  name: yfin_stock_weekly_loader
+  name: yfin_stock_monthly_loader
   retry_config: null
   status: updated
   timeout: null
   type: data_loader
   upstream_blocks:
   - get_nifty_50_companies
-  uuid: yfin_stock_weekly_loader
-- all_upstream_blocks_executed: true
+  uuid: yfin_stock_monthly_loader
+- all_upstream_blocks_executed: false
   color: null
   configuration:
     file_source:
       path: null
   downstream_blocks:
-  - yfin_stock_weekly_exporter
+  - yfin_stock_monthly_exporter
   executor_config: null
   executor_type: local_python
   has_callback: false
   language: python
-  name: yfin_stock_earnings_tans
+  name: yfin_stock_daily_transformer
   retry_config: null
   status: executed
   timeout: null
   type: transformer
   upstream_blocks:
-  - yfin_stock_weekly_loader
-  uuid: yfin_stock_earnings_tans
-- all_upstream_blocks_executed: true
+  - yfin_stock_monthly_loader
+  uuid: yfin_stock_daily_transformer
+- all_upstream_blocks_executed: false
   color: null
   configuration:
     file_source:
@@ -66,15 +66,15 @@ blocks:
   executor_type: local_python
   has_callback: false
   language: python
-  name: yfin_stock_weekly_exporter
+  name: yfin_stock_monthly_exporter
   retry_config: null
   status: executed
   timeout: null
   type: data_exporter
   upstream_blocks:
-  - yfin_stock_earnings_tans
-  uuid: yfin_stock_weekly_exporter
-- all_upstream_blocks_executed: true
+  - yfin_stock_daily_transformer
+  uuid: yfin_stock_monthly_exporter
+- all_upstream_blocks_executed: false
   color: null
   configuration:
     data_provider: postgres
@@ -83,7 +83,7 @@ blocks:
     disable_query_preprocessing: false
     export_write_policy: append
     file_source:
-      path: data_exporters\landing_stage_load_control_exporter_sql.sql
+      path: null
     limit: 1000
     use_raw_sql: true
   downstream_blocks: []
@@ -93,21 +93,21 @@ blocks:
   language: sql
   name: landing_stage_load_control_exporter_sql
   retry_config: null
-  status: failed
+  status: not_executed
   timeout: null
   type: data_exporter
   upstream_blocks:
-  - yfin_stock_weekly_exporter
+  - yfin_stock_monthly_exporter
   uuid: landing_stage_load_control_exporter_sql
 cache_block_output_in_memory: false
 callbacks: []
 concurrency_config: {}
 conditionals:
-- all_upstream_blocks_executed: true
+- all_upstream_blocks_executed: false
   color: null
   configuration:
     file_source:
-      path: conditionals\yfin_stock_daily_conditions.py
+      path: null
   downstream_blocks: []
   executor_config: null
   executor_type: local_python
@@ -119,16 +119,16 @@ conditionals:
   timeout: null
   type: conditional
   upstream_blocks:
-  - yfin_stock_weekly_loader
+  - yfin_stock_monthly_loader
   uuid: yfin_stock_daily_conditions
-created_at: '2025-07-09 09:09:06.987594+00:00'
+created_at: '2025-07-10 12:10:48.999886+00:00'
 data_integration: null
-description: This pipeline load earning, recommendation, estimates weekly.
+description: This is to load stock company info on the monthly basis
 executor_config: {}
 executor_count: 1
 executor_type: null
 extensions: {}
-name: yfin_landing_weekly
+name: yfin_landing_monthly
 notification_config: {}
 remote_variables_dir: null
 retry_config: {}
@@ -138,10 +138,10 @@ settings:
 spark_config: {}
 tags:
 - yfin_landing
-- weekly
+- monthly
 type: python
-uuid: yfin_landing_weekly
+uuid: yfin_landing_monthly
 variables:
-  pipeline_name: yfin_landing_weekly
+  pipeline_name: yfin_landing_monthly
 variables_dir: C:\Users\61073035/.mage_data\indian_sm_dw
 widgets: []
