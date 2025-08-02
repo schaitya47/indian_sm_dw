@@ -272,7 +272,7 @@ CREATE TABLE stock_dw.fact_recommendations (
     stock_key INTEGER NOT NULL REFERENCES stock_dw.dim_stock(stock_key), -- Foreign key to dim_stock
     source_key INTEGER NOT NULL REFERENCES stock_dw.dim_source(source_key), -- Foreign key to dim_source
 
-    recommendation_period TEXT, -- Period for which recommendation applies (e.g., '2024-07')
+    recommendation_period timestamp without time zone, -- Period for which recommendation applies (e.g., '2024-07')
 
     -- Analyst Recommendation Counts (nullable, source: yfin_stock_recomendations_tbls)
     strong_buy SMALLINT, -- Number of analysts recommending 'Strong Buy'
@@ -281,7 +281,8 @@ CREATE TABLE stock_dw.fact_recommendations (
     sell SMALLINT,       -- Number recommending 'Sell'
     strong_sell SMALLINT,-- Number recommending 'Strong Sell'
 
-    load_ts TIMESTAMP without time zone  -- Timestamp of data load
+    load_ts TIMESTAMP without time zone,  -- Timestamp of data load
+    CONSTRAINT fact_recommendations_unique_key UNIQUE (date_key, stock_key, source_key, recommendation_period)
 );
 
 
