@@ -2,79 +2,77 @@ blocks:
 - all_upstream_blocks_executed: true
   color: teal
   configuration:
+    data_provider: postgres
+    data_provider_profile: default
+    dbt: {}
+    disable_query_preprocessing: false
+    export_write_policy: append
     file_source:
-      path: null
+      path: custom\dwh_stage_load_control_loader.sql
+    limit: 1000
+    use_raw_sql: true
   downstream_blocks:
-  - yfin_stock_monthly_loader
+  - dwh_fact_cashflow_dw
   executor_config: null
   executor_type: local_python
   has_callback: false
-  language: python
-  name: get_nifty_50_companies
+  language: sql
+  name: dwh_stage_load_control_loader
   retry_config: null
   status: executed
   timeout: null
   type: custom
   upstream_blocks: []
-  uuid: get_nifty_50_companies
+  uuid: dwh_stage_load_control_loader
 - all_upstream_blocks_executed: true
   color: null
   configuration:
-    file_source:
-      path: null
+    data_provider: postgres
+    data_provider_profile: default
+    dbt: {}
+    disable_query_preprocessing: false
+    export_write_policy: append
+    limit: 1000
+    use_raw_sql: true
   downstream_blocks:
-  - yfin_stock_daily_transformer
+  - dwh_fact_cash_flow_exporter
   executor_config: null
   executor_type: local_python
   has_callback: false
-  language: python
-  name: yfin_stock_monthly_loader
+  language: sql
+  name: dwh_fact_cashflow_dw
   retry_config: null
   status: executed
   timeout: null
   type: data_loader
   upstream_blocks:
-  - get_nifty_50_companies
-  uuid: yfin_stock_monthly_loader
+  - dwh_stage_load_control_loader
+  uuid: dwh_fact_cashflow_dw
 - all_upstream_blocks_executed: true
   color: null
   configuration:
-    file_source:
-      path: null
-  downstream_blocks:
-  - yfin_stock_monthly_exporter
-  executor_config: null
-  executor_type: local_python
-  has_callback: false
-  language: python
-  name: yfin_stock_daily_transformer
-  retry_config: null
-  status: executed
-  timeout: null
-  type: transformer
-  upstream_blocks:
-  - yfin_stock_monthly_loader
-  uuid: yfin_stock_daily_transformer
-- all_upstream_blocks_executed: true
-  color: null
-  configuration:
-    file_source:
-      path: null
+    data_provider: postgres
+    data_provider_profile: default
+    dbt: {}
+    disable_query_preprocessing: false
+    export_write_policy: append
+    limit: 1000
+    use_raw_sql: true
   downstream_blocks:
   - landing_stage_load_control_exporter_sql
   executor_config: null
   executor_type: local_python
   has_callback: false
-  language: python
-  name: yfin_stock_monthly_exporter
+  language: sql
+  name: dwh_fact_cash_flow_exporter
   retry_config: null
-  status: failed
+  status: executed
   timeout: null
   type: data_exporter
   upstream_blocks:
-  - yfin_stock_daily_transformer
-  uuid: yfin_stock_monthly_exporter
-- all_upstream_blocks_executed: false
+  - dwh_fact_cashflow_dw
+  uuid: dwh_fact_cash_flow_exporter
+- all_upstream_blocks_executed: true
   color: null
   configuration:
     data_provider: postgres
@@ -83,7 +81,7 @@ blocks:
     disable_query_preprocessing: false
     export_write_policy: append
     file_source:
-      path: null
+      path: data_exporters\landing_stage_load_control_exporter_sql.sql
     limit: 1000
     use_raw_sql: true
   downstream_blocks: []
@@ -97,38 +95,20 @@ blocks:
   timeout: null
   type: data_exporter
   upstream_blocks:
-  - yfin_stock_monthly_exporter
+  - dwh_fact_cash_flow_exporter
   uuid: landing_stage_load_control_exporter_sql
 cache_block_output_in_memory: false
 callbacks: []
 concurrency_config: {}
-conditionals:
-- all_upstream_blocks_executed: true
-  color: null
-  configuration:
-    file_source:
-      path: null
-  downstream_blocks: []
-  executor_config: null
-  executor_type: local_python
-  has_callback: false
-  language: python
-  name: yfin_stock_daily_conditions
-  retry_config: null
-  status: not_executed
-  timeout: null
-  type: conditional
-  upstream_blocks:
-  - yfin_stock_monthly_loader
-  uuid: yfin_stock_daily_conditions
-created_at: '2025-07-10 12:10:48.999886+00:00'
+conditionals: []
+created_at: '2025-08-02 18:41:23.472777+00:00'
 data_integration: null
-description: This is to load stock company info on the monthly basis
+description: This pipeline loads factual data of stocks cashflow from tickertape pipeline
 executor_config: {}
 executor_count: 1
 executor_type: null
 extensions: {}
-name: yfin_landing_monthly
+name: fact_cashflow_dw
 notification_config: {}
 remote_variables_dir: null
 retry_config: {}
@@ -137,11 +117,11 @@ settings:
   triggers: null
 spark_config: {}
 tags:
-- yfin_landing
-- monthly
+- DWH
+- fact
 type: python
-uuid: yfin_landing_monthly
+uuid: fact_cashflow_dw
 variables:
-  pipeline_name: yfin_landing_monthly
+  pipeline_name: fact_cashflow_dw
 variables_dir: C:\Users\61073035/.mage_data\indian_sm_dw
 widgets: []
