@@ -23,7 +23,7 @@ blocks:
     file_source:
       path: null
   downstream_blocks:
-  - yfin_stock_daily_transformer
+  - yfin_stock_monthly_transformer
   executor_config: null
   executor_type: local_python
   has_callback: false
@@ -39,22 +39,23 @@ blocks:
 - all_upstream_blocks_executed: true
   color: null
   configuration:
-    file_source:
-      path: null
+    data_provider: postgres
+    data_provider_profile: default
+    export_write_policy: append
   downstream_blocks:
   - yfin_stock_monthly_exporter
   executor_config: null
   executor_type: local_python
   has_callback: false
   language: python
-  name: yfin_stock_daily_transformer
+  name: yfin_stock_monthly_transformer
   retry_config: null
   status: executed
   timeout: null
   type: transformer
   upstream_blocks:
   - yfin_stock_monthly_loader
-  uuid: yfin_stock_daily_transformer
+  uuid: yfin_stock_monthly_transformer
 - all_upstream_blocks_executed: true
   color: null
   configuration:
@@ -68,13 +69,13 @@ blocks:
   language: python
   name: yfin_stock_monthly_exporter
   retry_config: null
-  status: failed
+  status: executed
   timeout: null
   type: data_exporter
   upstream_blocks:
-  - yfin_stock_daily_transformer
+  - yfin_stock_monthly_transformer
   uuid: yfin_stock_monthly_exporter
-- all_upstream_blocks_executed: false
+- all_upstream_blocks_executed: true
   color: null
   configuration:
     data_provider: postgres
