@@ -6,7 +6,7 @@ blocks:
     data_provider_profile: default
     data_provider_schema: ''
     dbt: {}
-    disable_query_preprocessing: true
+    disable_query_preprocessing: false
     export_write_policy: replace
     file_path: custom\dwh_stage_load_control_loader.sql
     file_source:
@@ -33,7 +33,7 @@ blocks:
     data_provider_profile: default
     data_provider_schema: ''
     dbt: {}
-    disable_query_preprocessing: true
+    disable_query_preprocessing: false
     export_write_policy: replace
     limit: 1000
     use_raw_sql: true
@@ -70,7 +70,7 @@ blocks:
   language: sql
   name: dwh_dim_stock_exporter
   retry_config: null
-  status: executed
+  status: failed
   timeout: null
   type: data_exporter
   upstream_blocks:
