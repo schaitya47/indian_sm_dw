@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14
+    container_name: mage-postgres
+    env_file:
+      - ./.env
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init_sql:/docker-entrypoint-initdb.d:ro
+    ports:
+      - "127.0.0.1:5432:5432"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - mage-net
+
+  mage:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: inid_sm_dw_mage_image
+    container_name: mage-app
+    env_file:
+      - ./.env
+    volumes:
+      - ./:/app                       # bind mount source for development
+      - mage-logs:/app/logs           # named volume for writable logs
+      - app-downloads:/app/resource  # named volume for runtime downloads
+    ports:
+      - "6789:6789"
+    depends_on:
+      - postgres
+    networks:
+      - mage-net
+    restart: unless-stopped
+
+networks:
+  mage-net:
+    driver: bridge
+
+volumes:
+  pgdata:
+    driver: local
+  mage-logs:
+    driver: local
+  app-downloads:
+    driver: local
