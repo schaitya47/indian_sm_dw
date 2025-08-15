@@ -649,6 +649,7 @@ CREATE TABLE IF NOT EXISTS stock_landing.nse_stock_history_ohlcv_tbls
     _close double precision,
     volume bigint,
     symbol text COLLATE pg_catalog."default" NOT NULL,
+    load_ts timestamp without time zone,
     CONSTRAINT nse_stock_history_ohlcv_tbls_pkey PRIMARY KEY (_timestamp, symbol)
 )
 
