@@ -1,5 +1,4 @@
-ALTER TABLE stock_dw.fact_cashflow
-    ADD CONSTRAINT fact_cashflow_unique_key UNIQUE (date_key, stock_key, source_key, reporting_period);
+CREATE SCHEMA IF NOT EXISTS stock_dw;
 --====================================================== To create a date table=========================================================
 -- Step 0: load dw pipeline to control table
 INSERT INTO stock_landing.stage_load_control (pipeline_name)
@@ -213,7 +212,7 @@ CREATE TABLE stock_dw.fact_income (
     q_inc_eps DOUBLE PRECISION, -- Earnings Per Share
     q_inc_dps TEXT,              -- Dividends Per Share (text format in source)
     q_inc_pyr TEXT,              -- Payout Ratio (text format in source)
-    load_ts TIMESTAMP without time zone  -- Timestamp of data load
+    load_ts TIMESTAMP without time zone,  -- Timestamp of data load
     CONSTRAINT fact_income_unique_key UNIQUE (date_key, stock_key, source_key, reporting_period)
 );
 
