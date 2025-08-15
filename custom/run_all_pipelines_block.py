@@ -1,4 +1,3 @@
-
 from utils.logger_genrator import get_logger
 import time
 import os
@@ -29,7 +28,18 @@ def execute_all_pipelines(*args, **kwargs):
     'fact_recommendations_dw'
     ]
 
-    log_file = os.path.join('C:/Mage_AI/indian_sm_dw/logs', 'mage_pipeline_run.log')
+    # Determine log directory in a portable way; allow override via env var
+    log_dir = os.getenv('MAGE_LOG_DIR')
+    if not log_dir:
+        log_dir = os.path.join(os.getcwd(), 'logs')
+
+    # Try to create the log directory, but don't fail the pipeline if it can't
+    try:
+        os.makedirs(log_dir, exist_ok=True)
+    except Exception:
+        pass
+
+    log_file = os.path.join(log_dir, 'mage_pipeline_run.log')
     
     logger = get_logger(log_file)
 
