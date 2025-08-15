@@ -32,6 +32,7 @@ services:
       - ./:/app                       # bind mount source for development
       - mage-logs:/app/logs           # named volume for writable logs
       - app-downloads:/app/resource  # named volume for runtime downloads
+    user: "${UID}:${GID}"
     ports:
       - "6789:6789"
     depends_on:
