@@ -2,5 +2,4 @@ mage-ai
 psycopg2-binary
 sshtunnel
 yfinance
-bharat-sm-data
-selenium
+git+https://github.com/schaitya47/Bharat-SM-Data.git
