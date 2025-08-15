@@ -1,5 +1,7 @@
 Deployment steps for indian_sm_dw (Mage-AI)
 
+**RECOMMENDED**: Use the Docker Compose approach (see "On‑Prem Deployment Checklist" section) for simpler deployment. The manual Docker commands below are provided for reference but are more complex.
+
 Overview
 - Postgres runs as a Docker container with host-mounted data for persistence.
 - Mage runs as a Docker container, connected to the same Docker network and using Postgres for metadata via environment variables.
@@ -74,9 +76,10 @@ Prepare project on host
    git clone <your-repo-url> /srv/mage_project
    cd /srv/mage_project
 
-2) Create and edit .env from the example, set a strong POSTGRES_PASSWORD and MAGE_LOG_DIR:
+2) Create and edit .env from the example, set a strong POSTGRES_PASSWORD and user IDs:
    cp .env.example .env
-   # edit /srv/mage_project/.env -> set POSTGRES_PASSWORD and (optional) MAGE_LOG_DIR=/app/logs
+   # edit /srv/mage_project/.env -> set POSTGRES_PASSWORD, UID, and GID
+   # Get your user/group IDs: id -u (UID) and id -g (GID)
    chmod 600 /srv/mage_project/.env
 
 Persistent storage & permissions
@@ -101,7 +104,8 @@ Backups & maintenance
 6) Back up Postgres regularly (cron example):
    mkdir -p /srv/mage_project/backups
    # Example pg_dump (run on host or scheduled container):
-   PGPASSFILE=.pgpass pg_dump -h 127.0.0.1 -U $POSTGRES_USER -F c -b -v -f /srv/mage_project/backups/magedb_$(date +%F).dump $POSTGRES_DB
+   # First, create .pgpass file: echo "127.0.0.1:5432:indian_sm_dw:postgres:<PASSWORD>" > ~/.pgpass && chmod 600 ~/.pgpass
+   pg_dump -h 127.0.0.1 -U postgres -F c -b -v -f /srv/mage_project/backups/magedb_$(date +%F).dump indian_sm_dw
 
 Recommended backup strategy
 - Regular full backups: schedule a daily pg_dump (custom format) and keep 7-30 rolling copies depending on retention policy. Example cron (daily at 02:00):
