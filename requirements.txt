@@ -1,3 +1,4 @@
+mage-ai
 psycopg2-binary
 sshtunnel
 yfinance
