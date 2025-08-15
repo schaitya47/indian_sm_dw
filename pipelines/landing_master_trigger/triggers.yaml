@@ -1,0 +1,14 @@
+triggers:
+- description: null
+  envs: []
+  last_enabled_at: 2025-08-13 19:03:19.827185
+  name: landing_master
+  pipeline_uuid: landing_master_trigger
+  schedule_interval: 0 11 * * *
+  schedule_type: time
+  settings: null
+  sla: null
+  start_time: 2025-08-13 18:54:00
+  status: active
+  token: a13b3be0c60e4c0696e67d602eb271a5
+  variables: {}
