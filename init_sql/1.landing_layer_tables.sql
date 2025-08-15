@@ -686,6 +686,6 @@ VALUES
   ('get_nifty50_companies'),
   ('nse_landing_daily'),
   ('tick_landing_monthly'),
-  ('yfin_landing_daliy'),
+  ('yfin_landing_daily'),
   ('yfin_landing_monthly'),
   ('yfin_landing_weekly');
