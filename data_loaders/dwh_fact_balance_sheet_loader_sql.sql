@@ -42,8 +42,8 @@ SELECT
     bal_dta,
     -- Convert load_ts text to timestamp if needed
     (CURRENT_TIMESTAMP)::timestamp AS load_ts
-FROM stock_landing.tick_stock_balance_sheet_tbls t
-INNER JOIN stock_dw.dim_stock ds ON t.symbol = ds.nk_symbol
+FROM stock_landing.tick_stock_balance_sheet_tbls tsbst
+INNER JOIN stock_dw.dim_stock ds ON tsbst.symbol = ds.nk_symbol
 INNER JOIN stock_dw.dim_source dsrc ON dsrc.source_name = 'TICK'
-INNER JOIN stock_dw.dim_date dd ON t.end_date::date = dd.nk_full_date    
-WHERE t.load_ts > (SELECT last_success_timestamp FROM {{ df_1 }})
+INNER JOIN stock_dw.dim_date dd ON tsbst.end_date::date = dd.nk_full_date    
+WHERE tsbst.load_ts > (SELECT last_success_timestamp FROM {{ df_1 }})
