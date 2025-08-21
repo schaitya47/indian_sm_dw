@@ -2,45 +2,45 @@ SELECT
     dd.date_key AS date_key,  -- from load_ts
     ds.stock_key AS stock_key,  -- from symbol
     dsrc.source_key AS source_key,  -- you must define how to join to dim_source
-    src.risk,
-    src.letter_3mavgvol,
-    src.letter_4wpct,
-    src.letter_52whigh,
-    src.letter_52wlow,
-    src.letter_52wpct,
-    src.beta,
-    src.bps,
-    src.div_yield,
-    src.eps,
-    src.inddy,
-    src.indpb,
-    src.indpe,
-    src.market_cap,
-    src.mrkt_cap_rank,
-    src.pb,
-    src.pe,
-    src.roe,
-    src.n_shareholders,
-    src.last_price,
-    src.ttm_pe,
-    src.market_cap_label,
-    src.letter_12mvol,
-    src.mrkt_capf,
-    src.apef,
-    src.pbr,
-    src.etf_liq,
-    src.etf_liq_label,
-    src.expense_ratio,
-    src.track_err,
-    src.ind_expense_ratio,
-    src.ind_track_err,
-    src.asst_under_man,
-    src.load_ts
-FROM stock_landing.tick_stock_key_ratios_tbls src
+    tskrt.risk,
+    tskrt.letter_3mavgvol,
+    tskrt.letter_4wpct,
+    tskrt.letter_52whigh,
+    tskrt.letter_52wlow,
+    tskrt.letter_52wpct,
+    tskrt.beta,
+    tskrt.bps,
+    tskrt.div_yield,
+    tskrt.eps,
+    tskrt.inddy,
+    tskrt.indpb,
+    tskrt.indpe,
+    tskrt.market_cap,
+    tskrt.mrkt_cap_rank,
+    tskrt.pb,
+    tskrt.pe,
+    tskrt.roe,
+    tskrt.n_shareholders,
+    tskrt.last_price,
+    tskrt.ttm_pe,
+    tskrt.market_cap_label,
+    tskrt.letter_12mvol,
+    tskrt.mrkt_capf,
+    tskrt.apef,
+    tskrt.pbr,
+    tskrt.etf_liq,
+    tskrt.etf_liq_label,
+    tskrt.expense_ratio,
+    tskrt.track_err,
+    tskrt.ind_expense_ratio,
+    tskrt.ind_track_err,
+    tskrt.asst_under_man,
+    (CURRENT_TIMESTAMP)::timestamp AS load_ts
+FROM stock_landing.tick_stock_key_ratios_tbls tskrt
 INNER JOIN stock_dw.dim_stock ds
-    ON ds.nk_symbol = src.symbol
+    ON ds.nk_symbol = tskrt.symbol
 INNER JOIN stock_dw.dim_date dd
-    ON dd.nk_full_date = src.load_ts::date  -- adjust if your dim_date uses a different field
+    ON dd.nk_full_date = tskrt.load_ts::date  -- adjust if your dim_date uses a different field
 INNER JOIN stock_dw.dim_source dsrc
     ON dsrc.source_name = 'TICK'  -- adjust as needed for your source dimension
-WHERE src.load_ts > (SELECT last_success_timestamp FROM {{ df_1 }})
+WHERE tskrt.load_ts > (SELECT last_success_timestamp FROM {{ df_1 }})
