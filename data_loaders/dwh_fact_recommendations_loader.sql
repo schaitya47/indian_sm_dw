@@ -9,7 +9,7 @@ SELECT
     ysrt.strong_buy,
     ysrt.strong_sell,
     (CURRENT_TIMESTAMP)::timestamp AS load_ts
-FROM stock_landing.yfin_stock_recomendations_tbls src
+FROM stock_landing.yfin_stock_recomendations_tbls ysrt
 INNER JOIN stock_dw.dim_stock ds
     ON ds.nk_symbol = ysrt.symbol
 INNER JOIN stock_dw.dim_date dd
