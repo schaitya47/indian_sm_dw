@@ -23,7 +23,7 @@ def load_data(data1: list, *args, **kwargs):
 
     # Calculate the start and end dates based on the time difference
     end_date = dt.now()
-    start_date = end_date - timedelta(days=time_diff)
+    start_date = end_date - timedelta(days=time_diff+3) # Calculate start date based on time_diff + 3 fallback window
 
     # Function to fetch daily data for a given symbol
     # This function fetches daily stock data from Yahoo Finance

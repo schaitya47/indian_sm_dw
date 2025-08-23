@@ -54,28 +54,34 @@ def load_data_from_postgres(*args, **kwargs):
 
     # calculate the time difference between the current time and the last run timestamp
     time_diff = dt.now() - last_run_ts[0]
-    time_diff = time_diff.days
 
     # created time_diff_criteria variable to set the criteria for time difference
-    time_diff_criteria = 0
-
     # Set the time difference criteria based on the pipeline name.
     # This determines how often the data should be loaded based on the pipeline's frequency.
-    if pipeline_name in ["yfin_landing_daily","nse_landing_daily"]:
-        time_diff_criteria = 1
-    elif pipeline_name == "yfin_landing_weekly":
-        time_diff_criteria = 7
-    elif pipeline_name in ["yfin_landing_monthly","tick_landing_monthly"]:
-        time_diff_criteria = 30
-    
+
+    mapping = {
+    'yfin_landing_daily': 1,
+    'nse_landing_daily': 1,
+    'yfin_landing_weekly': 7,
+    'yfin_landing_monthly': 30,
+    'tick_landing_monthly': 30,
+    }
+
+    time_diff_criteria = mapping.get(str(pipeline_name))
+
+    if time_diff_criteria is None:
+        raise Exception("Please check the pipeline name.")
+
+    threshold = timedelta(days=time_diff_criteria) - timedelta(hours=1)
+
     # If the time difference is less than the criteria, return None to indicate no new data to load.
     # Otherwise, return the list of companies and the time difference.
-    if time_diff < time_diff_criteria:
+    if time_diff < threshold:
         print("No new data to load, returning existing list of companies.")
         return None 
     else:
         list_of_comp = list_of_comp['symbol'].tolist()
-        return [list_of_comp,time_diff]
+        return [list_of_comp, time_diff_criteria]
 
 
 # @test

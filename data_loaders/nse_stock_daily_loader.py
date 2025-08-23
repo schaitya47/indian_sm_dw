@@ -23,7 +23,7 @@ def load_data(symbol: list,*args, **kwargs):
 
     # Prepare timeframe
     end_date = dt.now() # Current date 
-    start_date = end_date - timedelta(days=time_diff) # Calculate start date based on time_diff
+    start_date = end_date - timedelta(days=time_diff+3) # Calculate start date based on time_diff + 3 fallback window
 
     # Instantiate class NSEMasterData
     # This class is responsible for fetching data from charting.nseindia.com
