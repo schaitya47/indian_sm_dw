@@ -2,7 +2,7 @@ from mage_ai.settings.repo import get_repo_path
 from mage_ai.io.config import ConfigFileLoader
 from mage_ai.io.postgres import Postgres
 from os import path
-from datetime import datetime as dt, timedelta
+from datetime import datetime as dt, timedelta, timezone
 
 if 'data_loader' not in globals():
     from mage_ai.data_preparation.decorators import data_loader
@@ -53,7 +53,8 @@ def load_data_from_postgres(*args, **kwargs):
     last_run_ts =  last_run_ts['last_success_timestamp'].tolist()
 
     # calculate the time difference between the current time and the last run timestamp
-    time_diff = dt.now() - last_run_ts[0]
+    ist_timezone = timezone(timedelta(hours=5, minutes=30))
+    time_diff = dt.now(ist_timezone) - last_run_ts[0]
 
     # created time_diff_criteria variable to set the criteria for time difference
     # Set the time difference criteria based on the pipeline name.
@@ -106,7 +107,8 @@ def load_data_from_postgres(*args, **kwargs):
 #     last_run_ts = last_run_ts['last_success_timestamp'].tolist()[0]
 
 #     start_date = last_run_ts
-#     enddate = dt.now() 
+#     ist_timezone = timezone(timedelta(hours=5, minutes=30))
+#     enddate = dt.now(ist_timezone) 
 #     time_diff = enddate - start_date
 
 #     # print("Last run timestamp:",last_run_ts[0])
