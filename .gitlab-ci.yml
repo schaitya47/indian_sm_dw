@@ -15,7 +15,6 @@ deploy:
         else
           git clone -b docker_devlop https://github.com/schaitya47/indian_sm_dw.git;
           cd indian_sm_dw && sudo docker compose up -d --build;
-        fi
-      "
+        fi"
   only:
     - docker_devlop   # 👈 restrict to your branch
