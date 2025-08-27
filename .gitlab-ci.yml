@@ -6,7 +6,6 @@ deploy:
     - chmod 600 ~/.ssh/id_rsa
     - ssh-keyscan -H 34.58.216.152 >> ~/.ssh/known_hosts
 
-    # SSH into VM and deploy
     - ssh g2021mt70165@34.58.216.152 "
         set -e;
         cd /home/g2021mt70165 || mkdir -p /home/g2021mt70165 && cd /home/g2021mt70165;
@@ -18,3 +17,5 @@ deploy:
           cd indian_sm_dw && sudo docker compose up -d --build;
         fi
       "
+  only:
+    - docker_devlop   # 👈 restrict to your branch
