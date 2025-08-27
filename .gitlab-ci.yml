@@ -1,14 +1,20 @@
-stages:
-  - test
-
-test-ssh:
-  stage: test
-  image: alpine:latest
-  before_script:
-    - apk add --no-cache openssh-client
+deploy:
+  stage: deploy
+  script:
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
     - ssh-keyscan -H 34.58.216.152 >> ~/.ssh/known_hosts
-  script:
-    - ssh gitlab-deploy@34.58.216.152 "echo '✅ SSH connection successful from GitLab!'"
+
+    # SSH into VM and deploy
+    - ssh g2021mt70165@34.58.216.152 "
+        set -e;
+        cd /home/g2021mt70165 || mkdir -p /home/g2021mt70165 && cd /home/g2021mt70165;
+        if [ -d indian_sm_dw ]; then
+          cd indian_sm_dw && git pull;
+          sudo docker compose down && sudo docker compose up -d --build;
+        else
+          git clone -b docker_devlop https://github.com/schaitya47/indian_sm_dw.git;
+          cd indian_sm_dw && sudo docker compose up -d --build;
+        fi
+      "
