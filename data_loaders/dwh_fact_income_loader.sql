@@ -19,7 +19,7 @@ SELECT
     tsit.q_inc_eps,
     tsit.q_inc_dps,
     tsit.q_inc_pyr,
-    (CURRENT_TIMESTAMP)::timestamp AS load_ts
+    (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Kolkata')::timestamp AS load_ts
 FROM stock_landing.tick_stock_income_tbls tsit
 INNER JOIN stock_dw.dim_date dd
     ON dd.nk_full_date = tsit.end_date

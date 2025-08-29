@@ -76,7 +76,7 @@ select
     bal_ca,
     bal_ncl,
     bal_dta,
-    CURRENT_TIMESTAMP
+    load_ts
 FROM {{ df_1 }}
 ON CONFLICT (date_key, stock_key, source_key, reporting_period)
 DO UPDATE SET
@@ -113,7 +113,7 @@ DO UPDATE SET
     bal_ca = EXCLUDED.bal_ca,
     bal_ncl = EXCLUDED.bal_ncl,
     bal_dta = EXCLUDED.bal_dta,
-    load_ts = CURRENT_TIMESTAMP
+    load_ts = CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Kolkata'
 WHERE
     (fact_balance_sheet.bal_csti IS DISTINCT FROM EXCLUDED.bal_csti OR
      fact_balance_sheet.bal_trec IS DISTINCT FROM EXCLUDED.bal_trec OR

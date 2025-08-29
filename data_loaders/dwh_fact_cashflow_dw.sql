@@ -13,7 +13,7 @@ SELECT
     tsct.caf_fee,
     tsct.caf_ncic,
     tsct.caf_fcf,
-    (CURRENT_TIMESTAMP)::timestamp AS load_ts
+    (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Kolkata')::timestamp AS load_ts
 FROM stock_landing.tick_stock_cashflow_tbls tsct
 INNER JOIN stock_dw.dim_date dd
     ON dd.nk_full_date = tsct.end_date -- or your date mapping logic

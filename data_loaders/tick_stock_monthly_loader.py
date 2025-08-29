@@ -1,6 +1,6 @@
 from Fundamentals import Tickertape
 import pandas as pd
-from datetime import datetime as dt
+from datetime import datetime as dt, timedelta, timezone
 
 if 'data_loader' not in globals():
     from mage_ai.data_preparation.decorators import data_loader
@@ -38,7 +38,7 @@ def load_data(symbol: list,*args, **kwargs):
             # print(c_data)
             return data if data is not None else pd.DataFrame()
         c_data['Symbol'] = symbol
-        c_data['load_ts'] = dt.now()
+        c_data['load_ts'] = dt.now(timezone(timedelta(hours=5, minutes=30)))
 
         if c_data is not None and not c_data.empty:
             # Ensure the index is reset before concatenation

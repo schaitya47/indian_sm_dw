@@ -1,6 +1,6 @@
 import pandas as pd
 import yfinance as yf
-from datetime import timedelta,datetime as dt
+from datetime import datetime as dt, timedelta, timezone
 if 'data_loader' not in globals():
     from mage_ai.data_preparation.decorators import data_loader
 if 'test' not in globals():
@@ -22,7 +22,7 @@ def load_data(data1: list, *args, **kwargs):
     data = pd.DataFrame()
 
     # Calculate the start and end dates based on the time difference
-    end_date = dt.now()
+    end_date = dt.now(timezone(timedelta(hours=5, minutes=30)))
     start_date = end_date - timedelta(days=time_diff+3) # Calculate start date based on time_diff + 3 fallback window
 
     # Function to fetch daily data for a given symbol
@@ -33,7 +33,7 @@ def load_data(data1: list, *args, **kwargs):
         try:
             data = ticker.history(start=start_date, end=end_date, interval="1d")
             data['Symbol'] = symbol
-            data['load_ts'] = dt.now() 
+            data['load_ts'] = dt.now(timezone(timedelta(hours=5, minutes=30))) 
             data.reset_index(inplace=True)
             data.rename(columns={'Date': 'date'}, inplace=True)
             return data

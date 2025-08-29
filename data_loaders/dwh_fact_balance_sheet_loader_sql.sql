@@ -41,7 +41,7 @@ SELECT
     bal_ncl,
     bal_dta,
     -- Convert load_ts text to timestamp if needed
-    (CURRENT_TIMESTAMP)::timestamp AS load_ts
+    (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Kolkata')::timestamp AS load_ts
 FROM stock_landing.tick_stock_balance_sheet_tbls tsbst
 INNER JOIN stock_dw.dim_stock ds ON tsbst.symbol = ds.nk_symbol
 INNER JOIN stock_dw.dim_source dsrc ON dsrc.source_name = 'TICK'
