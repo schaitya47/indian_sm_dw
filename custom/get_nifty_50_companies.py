@@ -54,8 +54,11 @@ def load_data_from_postgres(*args, **kwargs):
 
     # calculate the time difference between the current time and the last run timestamp
     ist_timezone = timezone(timedelta(hours=5, minutes=30))
-    time_diff = dt.now(ist_timezone) - last_run_ts[0]
+    # Make the database timestamp timezone-aware (assuming it's in IST)
+    last_run_ts_aware = last_run_ts[0].replace(tzinfo=ist_timezone)
+    time_diff = dt.now(ist_timezone) - last_run_ts_aware
 
+    print(dt.now(), time_diff, last_run_ts_aware, dt.now(ist_timezone))
     # created time_diff_criteria variable to set the criteria for time difference
     # Set the time difference criteria based on the pipeline name.
     # This determines how often the data should be loaded based on the pipeline's frequency.
