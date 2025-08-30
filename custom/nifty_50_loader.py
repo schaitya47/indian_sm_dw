@@ -1,5 +1,5 @@
 from utils.nse.nse_data_extractor import NSEMasterData
-from datetime import datetime, timedelta
+from datetime import datetime as dt, timedelta, timezone
 
 if 'custom' not in globals():
     from mage_ai.data_preparation.decorators import custom
@@ -14,7 +14,7 @@ def transform_custom(*args, **kwargs):
     nse = NSEMasterData()
     df = nse.download_nifty50_csv()
     df["yfin_symbol"] = df["Symbol"] +".NS"
-    df["load_ts"] = datetime.now()
+    df["load_ts"] = dt.now(timezone(timedelta(hours=5, minutes=30)))
     
     return df
 

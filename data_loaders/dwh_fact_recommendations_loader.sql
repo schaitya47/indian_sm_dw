@@ -8,7 +8,7 @@ SELECT
     ysrt.sell,
     ysrt.strong_buy,
     ysrt.strong_sell,
-    (CURRENT_TIMESTAMP)::timestamp AS load_ts
+    (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Kolkata')::timestamp AS load_ts
 FROM stock_landing.yfin_stock_recomendations_tbls ysrt
 INNER JOIN stock_dw.dim_stock ds
     ON ds.nk_symbol = ysrt.symbol

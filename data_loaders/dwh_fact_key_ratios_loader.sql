@@ -35,7 +35,7 @@ SELECT
     tskrt.ind_expense_ratio,
     tskrt.ind_track_err,
     tskrt.asst_under_man,
-    (CURRENT_TIMESTAMP)::timestamp AS load_ts
+    (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Kolkata')::timestamp AS load_ts
 FROM stock_landing.tick_stock_key_ratios_tbls tskrt
 INNER JOIN stock_dw.dim_stock ds
     ON ds.nk_symbol = tskrt.symbol

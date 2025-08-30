@@ -1,5 +1,5 @@
 from utils.nse.nse_data_extractor import NSEMasterData
-from datetime import timedelta,datetime as dt
+from datetime import datetime as dt, timedelta, timezone
 import pandas as pd
 import time
 import random
@@ -22,7 +22,7 @@ def load_data(symbol: list,*args, **kwargs):
     data = pd.DataFrame()
 
     # Prepare timeframe
-    end_date = dt.now() # Current date 
+    end_date = dt.now(timezone(timedelta(hours=5, minutes=30))) # Current date 
     start_date = end_date - timedelta(days=time_diff+3) # Calculate start date based on time_diff + 3 fallback window
 
     # Instantiate class NSEMasterData
@@ -38,7 +38,7 @@ def load_data(symbol: list,*args, **kwargs):
         try:
             data = nse.get_history(symbol,"NSE",start_date, end_date,"1d")
             data['Symbol'] = symbol
-            data['load_ts'] = dt.now()
+            data['load_ts'] = dt.now(timezone(timedelta(hours=5, minutes=30)))
             data.reset_index(inplace=True)
             return data
         except Exception as e:

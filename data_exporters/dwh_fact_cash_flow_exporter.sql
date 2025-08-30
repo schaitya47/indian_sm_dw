@@ -28,7 +28,7 @@ SELECT
     caf_fee,
     caf_ncic,
     caf_fcf,
-    CURRENT_TIMESTAMP
+    load_ts
 FROM {{ df_1 }}
 ON CONFLICT (date_key, stock_key, source_key, reporting_period)
 DO UPDATE SET
@@ -41,7 +41,7 @@ DO UPDATE SET
     caf_fee = EXCLUDED.caf_fee,
     caf_ncic = EXCLUDED.caf_ncic,
     caf_fcf = EXCLUDED.caf_fcf,
-    load_ts = CURRENT_TIMESTAMP
+    load_ts = CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Kolkata'
 WHERE
      fact_cashflow.caf_ciwc IS DISTINCT FROM EXCLUDED.caf_ciwc OR
      fact_cashflow.caf_cfoa IS DISTINCT FROM EXCLUDED.caf_cfoa OR
