@@ -1,0 +1,9 @@
+Category,Metric,Unit,Measured Value,Target/Benchmark,Assessment
+ETL Performance,Throughput,Rows/second,309,> 100,Pass
+ETL Performance,Latency (Daily Run),Minutes,3.4,< 60,Pass
+ETL Performance,Failure Rate,%,1.7%,< 5%,Pass
+System Resources,Peak CPU Utilization,%,72%,< 80%,Pass
+System Resources,Peak Memory Usage,%,58%,< 70%,Pass
+Data Quality,Completeness,%,99.8%,> 99.5%,Pass
+Data Quality,Accuracy (Sampled),%,99.98%,> 99.9%,Pass
+Data Quality,Uniqueness,%,100%,100%,Pass

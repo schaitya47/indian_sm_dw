@@ -1,0 +1,28 @@
+{
+  "database": {
+    "host": "35.224.193.185",
+    "port": "5432",
+    "database": "indian_sm_dw",
+    "user": "postgres",
+    "password": "postgres"
+  },
+  "analysis": {
+    "default_days": 15,
+    "benchmarks": {
+      "throughput_min": 100,
+      "latency_max_minutes": 60,
+      "failure_rate_max": 5.0,
+      "cpu_max": 80.0,
+      "memory_max": 70.0,
+      "completeness_min": 99.5,
+      "accuracy_min": 99.9,
+      "uniqueness_target": 100.0
+    }
+  },
+  "system_estimates": {
+    "cpu_utilization": 72,
+    "memory_usage": 58,
+    "accuracy": 99.98,
+    "uniqueness": 100
+  }
+}
