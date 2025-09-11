@@ -354,7 +354,9 @@ class NSEMasterData:
         return pd.DataFrame()
 
     def download_nifty50_csv(self, save_path: str = "resource/ind_nifty50list.csv") -> pd.DataFrame:
-        """Download Nifty 50 CSV with enhanced error handling"""
+        """Download Nifty 50 CSV with enhanced error handling and local fallback"""
+        import os
+        
         url = "https://nsearchives.nseindia.com/content/indices/ind_nifty50list.csv"
 
         headers = {
@@ -390,4 +392,16 @@ class NSEMasterData:
                     time.sleep(wait_time)
 
         print(f"✗ Failed to download Nifty 50 CSV after {max_retries} attempts")
-        return pd.DataFrame()
+        
+        # Try to use local file as fallback
+        if os.path.exists(save_path):
+            print(f"⚠ Using existing local file: {save_path}")
+            try:
+                df = pd.read_csv(save_path)
+                print(f"✓ Successfully loaded {len(df)} Nifty 50 companies from local file")
+                return df
+            except Exception as e:
+                print(f"✗ Failed to read local file: {e}")
+        
+        # If no local file exists, raise exception
+        raise Exception(f"Failed to download Nifty 50 CSV from URL and no local file found at {save_path}")
