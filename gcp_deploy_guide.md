@@ -23,7 +23,17 @@
 - cd indian_sm_dw
 - mv .env.example .env
 - vi .env (edit your file and setup the creds)
+<<<<<<< Updated upstream
 - sudo docker compose up --build
+=======
+- sudo docker compose up --build -d
+- cd ..
+- Clone the repo's docker_devlop branch (git clone -b docker_devlop https://github.com/schaitya47/indian_sm_dw_api.git)
+- cd indian_sm_dw_api
+- mv .env.example .env
+- vi .env (edit your file and setup the creds)
+- sudo docker compose up --build -d
+>>>>>>> Stashed changes
 
 ## Firewall Configuration
 
@@ -52,9 +62,27 @@
     --direction=INGRESS \
     --priority=1000
 
+<<<<<<< Updated upstream
 ## Accessing Your Services
 - Mage AI: `http://<EXTERNAL_IP>:6789`
 - PostgreSQL: Connect using host `<EXTERNAL_IP>:5432`
+=======
+- gcloud compute firewall-rules create allow-api-8000 \
+    --project=indian-sm-dw \
+    --network=default \
+    --action=ALLOW \
+    --rules=tcp:8000 \
+    --source-ranges=<YOUR_PUBLIC_IP>/32 \
+    --target-tags=mage-server \
+    --direction=INGRESS \
+    --priority=1000
+
+## Accessing Your Services
+- Mage AI: `http://<EXTERNAL_IP>:6789`
+- PostgreSQL: Connect using host `<EXTERNAL_IP>:5432`
+- API: `http://<EXTERNAL_IP>:8000/db-test`
+
+>>>>>>> Stashed changes
 
 **Note**: Replace `<YOUR_PUBLIC_IP>`, `<instance_name>`, `<instance_zone>`, and `<EXTERNAL_IP>` with your actual values.
 
